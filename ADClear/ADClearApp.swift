@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-@main
-struct ADClearApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
-}
+//@main
+//struct ADClearApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            ContentView()
+//        }
+//    }
+//}

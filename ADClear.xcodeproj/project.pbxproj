@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		814509712FAC7EC500E4957C /* ContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 814509682FAC7EC500E4957C /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8145097C2FAC8A5000E4957C /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = 8145097B2FAC8A5000E4957C /* Features */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,13 @@
 			);
 			target = 814509672FAC7EC500E4957C /* ContentBlocker */;
 		};
+		814509792FAC859A00E4957C /* Exceptions for "ADClear" folder in "ADClear" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"test plan.xctestplan",
+			);
+			target = 81CFFDF92FAC675F00FA2422 /* ADClear */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -77,6 +85,9 @@
 		};
 		81CFFDFC2FAC675F00FA2422 /* ADClear */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				814509792FAC859A00E4957C /* Exceptions for "ADClear" folder in "ADClear" target */,
+			);
 			path = ADClear;
 			sourceTree = "<group>";
 		};
@@ -104,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8145097C2FAC8A5000E4957C /* Features in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +136,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8145097A2FAC8A5000E4957C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		81CFFDF12FAC675F00FA2422 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +151,7 @@
 				81CFFE0A2FAC676200FA2422 /* ADClearTests */,
 				81CFFE142FAC676200FA2422 /* ADClearUITests */,
 				814509692FAC7EC500E4957C /* ContentBlocker */,
+				8145097A2FAC8A5000E4957C /* Frameworks */,
 				81CFFDFB2FAC675F00FA2422 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -191,6 +211,7 @@
 			);
 			name = ADClear;
 			packageProductDependencies = (
+				8145097B2FAC8A5000E4957C /* Features */,
 			);
 			productName = ADClear;
 			productReference = 81CFFDFA2FAC675F00FA2422 /* ADClear.app */;
@@ -755,6 +776,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8145097B2FAC8A5000E4957C /* Features */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Features;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 81CFFDF22FAC675F00FA2422 /* Project object */;
 }
