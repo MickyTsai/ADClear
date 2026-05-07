@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		814509712FAC7EC500E4957C /* ContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 814509682FAC7EC500E4957C /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		8145096F2FAC7EC500E4957C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81CFFDF22FAC675F00FA2422 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 814509672FAC7EC500E4957C;
+			remoteInfo = ContentBlocker;
+		};
 		81CFFE082FAC676100FA2422 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81CFFDF22FAC675F00FA2422 /* Project object */;
@@ -23,13 +34,47 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		814509722FAC7EC500E4957C /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				814509712FAC7EC500E4957C /* ContentBlocker.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		814509682FAC7EC500E4957C /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		814509772FAC7F2400E4957C /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		81CFFDFA2FAC675F00FA2422 /* ADClear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADClear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE072FAC676100FA2422 /* ADClearTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE112FAC676200FA2422 /* ADClearUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		814509752FAC7EC500E4957C /* Exceptions for "ContentBlocker" folder in "ContentBlocker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 814509672FAC7EC500E4957C /* ContentBlocker */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		814509692FAC7EC500E4957C /* ContentBlocker */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				814509752FAC7EC500E4957C /* Exceptions for "ContentBlocker" folder in "ContentBlocker" target */,
+			);
+			path = ContentBlocker;
+			sourceTree = "<group>";
+		};
 		81CFFDFC2FAC675F00FA2422 /* ADClear */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = ADClear;
@@ -48,6 +93,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		814509652FAC7EC500E4957C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81CFFDF72FAC675F00FA2422 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -75,9 +127,11 @@
 		81CFFDF12FAC675F00FA2422 = {
 			isa = PBXGroup;
 			children = (
+				814509772FAC7F2400E4957C /* Features */,
 				81CFFDFC2FAC675F00FA2422 /* ADClear */,
 				81CFFE0A2FAC676200FA2422 /* ADClearTests */,
 				81CFFE142FAC676200FA2422 /* ADClearUITests */,
+				814509692FAC7EC500E4957C /* ContentBlocker */,
 				81CFFDFB2FAC675F00FA2422 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,6 +142,7 @@
 				81CFFDFA2FAC675F00FA2422 /* ADClear.app */,
 				81CFFE072FAC676100FA2422 /* ADClearTests.xctest */,
 				81CFFE112FAC676200FA2422 /* ADClearUITests.xctest */,
+				814509682FAC7EC500E4957C /* ContentBlocker.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +150,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		814509672FAC7EC500E4957C /* ContentBlocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 814509762FAC7EC500E4957C /* Build configuration list for PBXNativeTarget "ContentBlocker" */;
+			buildPhases = (
+				814509642FAC7EC500E4957C /* Sources */,
+				814509652FAC7EC500E4957C /* Frameworks */,
+				814509662FAC7EC500E4957C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				814509692FAC7EC500E4957C /* ContentBlocker */,
+			);
+			name = ContentBlocker;
+			packageProductDependencies = (
+			);
+			productName = ContentBlocker;
+			productReference = 814509682FAC7EC500E4957C /* ContentBlocker.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		81CFFDF92FAC675F00FA2422 /* ADClear */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81CFFE1B2FAC676200FA2422 /* Build configuration list for PBXNativeTarget "ADClear" */;
@@ -102,10 +179,12 @@
 				81CFFDF62FAC675F00FA2422 /* Sources */,
 				81CFFDF72FAC675F00FA2422 /* Frameworks */,
 				81CFFDF82FAC675F00FA2422 /* Resources */,
+				814509722FAC7EC500E4957C /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				814509702FAC7EC500E4957C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				81CFFDFC2FAC675F00FA2422 /* ADClear */,
@@ -173,6 +252,9 @@
 				LastSwiftUpdateCheck = 2630;
 				LastUpgradeCheck = 2630;
 				TargetAttributes = {
+					814509672FAC7EC500E4957C = {
+						CreatedOnToolsVersion = 26.3;
+					};
 					81CFFDF92FAC675F00FA2422 = {
 						CreatedOnToolsVersion = 26.3;
 					};
@@ -203,11 +285,19 @@
 				81CFFDF92FAC675F00FA2422 /* ADClear */,
 				81CFFE062FAC676100FA2422 /* ADClearTests */,
 				81CFFE102FAC676200FA2422 /* ADClearUITests */,
+				814509672FAC7EC500E4957C /* ContentBlocker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		814509662FAC7EC500E4957C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81CFFDF82FAC675F00FA2422 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -232,6 +322,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		814509642FAC7EC500E4957C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		81CFFDF62FAC675F00FA2422 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -256,6 +353,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		814509702FAC7EC500E4957C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 814509672FAC7EC500E4957C /* ContentBlocker */;
+			targetProxy = 8145096F2FAC7EC500E4957C /* PBXContainerItemProxy */;
+		};
 		81CFFE092FAC676100FA2422 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 81CFFDF92FAC675F00FA2422 /* ADClear */;
@@ -269,6 +371,68 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		814509732FAC7EC500E4957C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBTHL95N9V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ContentBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ContentBlocker;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mickytsai.ADClear.ContentBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		814509742FAC7EC500E4957C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CBTHL95N9V;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ContentBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = ContentBlocker;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mickytsai.ADClear.ContentBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 		81CFFE192FAC676200FA2422 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -545,6 +709,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		814509762FAC7EC500E4957C /* Build configuration list for PBXNativeTarget "ContentBlocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				814509732FAC7EC500E4957C /* Debug */,
+				814509742FAC7EC500E4957C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		81CFFDF52FAC675F00FA2422 /* Build configuration list for PBXProject "ADClear" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
