@@ -64,6 +64,9 @@ fastlane/test_output
 # macOS
 .DS_Store
 
+# Claude Code
+.claude/
+
 # Build output
 build/
 DerivedData/
