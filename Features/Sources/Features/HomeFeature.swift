@@ -1,43 +1,14 @@
-// The Swift Programming Language
-// https://docs.swift.org/swift-book
+//
+//  HomeFeature.swift
+//  Features
+//
+//  Created by Micky on 2026/5/8.
+//
 
-import SwiftUI
 import ComposableArchitecture
-import Services
-
-@main
-struct ADClearApp: App {
-  var body: some Scene {
-    WindowGroup {
-      HomeView(store: Store(initialState: AppFeature.State(),
-                            reducer: { AppFeature() }))
-    }
-  }
-}
-
-struct HomeView: View {
-  @Environment(\.scenePhase) private var scenePhase
-  
-  let store: StoreOf<AppFeature>
-
-  var body: some View {
-    Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
-      .onChange(of: scenePhase) { _, newPhase in
-        switch newPhase {
-          
-        case .background, .inactive:
-          break
-        case .active:
-          store.send(.scenceDidActive)
-        @unknown default:
-          fatalError()
-        }
-      }
-  }
-}
 
 @Reducer
-struct AppFeature {
+struct HomeFeature {
   @ObservableState
   struct State: Equatable {
     var isEnableContentBlocker = false
@@ -52,7 +23,7 @@ struct AppFeature {
   var body: some ReducerOf<Self> {
     @Dependency(\.contentBlockerService) var contentBlockerService
 
-    Reduce { state, action in
+    Reduce {state, action in
       switch action {
       case .scenceDidActive:
         return .send(.checkContentBlockerEnable)

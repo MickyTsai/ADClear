@@ -8,8 +8,8 @@ final class AppFeaturesTests: XCTestCase {
   
   // 進入畫面_contentBlocker權限未開啟
   func test_scenceDidActive_contentBlockerDisable() async throws {
-    let testStore = TestStore(initialState: AppFeature.State(),
-                              reducer: { AppFeature() }) {
+    let testStore = TestStore(initialState: HomeFeature.State(),
+                              reducer: { HomeFeature() }) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in false}
     }
     
@@ -20,8 +20,8 @@ final class AppFeaturesTests: XCTestCase {
   
   // 進入畫面_contentBlocker權限未開啟_後續使用者開啟
   func test_scenceDidActive_contentBlockerDisable_userEnabled() async throws {
-    let testStore = TestStore(initialState: AppFeature.State(),
-                              reducer: { AppFeature() }) {
+    let testStore = TestStore(initialState: HomeFeature.State(),
+                              reducer: { HomeFeature() }) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in false}
     }
     
@@ -40,8 +40,8 @@ final class AppFeaturesTests: XCTestCase {
   
   // 進入畫面_contentBlocker權限已開啟
   func test_scenceDidActive_contentBlockerEnabled() async throws {
-    let testStore = TestStore(initialState: AppFeature.State(),
-                              reducer: { AppFeature() }) {
+    let testStore = TestStore(initialState: HomeFeature.State(),
+                              reducer: { HomeFeature() }) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in true}
     }
     
