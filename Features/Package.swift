@@ -8,20 +8,29 @@ let package = Package(
   platforms: [.iOS(.v26)],
   products: [
     // Products define the executables and libraries a package produces, making them visible to other packages.
-    .library(name: "Features", targets: ["Features"])
+    .library(name: "Features", targets: ["Features"]),
+    .library(name: "Services", targets: ["Services"])
   ],
   dependencies: [
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.25.5"),
+    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.12.0"),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
-    .target(name: "Features", dependencies: [.tca]),
+    .target(name: "Features", dependencies: [.tca, .services]),
     .testTarget(name: "FeaturesTests", dependencies: ["Features", .tca]),
+    .target(name: "Services", dependencies: [.dependencies])
   ]
 )
+// First-party
+extension Target.Dependency {
+//  static let models: Self = "Models"
+  static let services: Self = "Services"
+}
 
 // Third-Party
 extension Target.Dependency {
   static let tca = Self.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+  static let dependencies = Self.product(name: "Dependencies", package: "swift-dependencies")
 }

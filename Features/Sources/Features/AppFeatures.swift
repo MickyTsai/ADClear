@@ -3,6 +3,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import Services
 
 @main
 struct ADClearApp: App {
@@ -47,12 +48,20 @@ struct AppFeature {
   }
   
   var body: some ReducerOf<Self> {
+    @Dependency(\.contentBlockerService) var contentBlockerService
+
     Reduce { state, action in
       switch action {
       case .scenceDidActive:
         return .send(.checkContentBlockerEnable)
+        
       case .checkContentBlockerEnable:
-        return .send(.isContentBlockerEnable(false))
+        return .run { send in
+          let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
+          let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
+          await send(.isContentBlockerEnable(isEnable))
+        }
+        
       case .isContentBlockerEnable(let isEnable):
         return .none
       }
