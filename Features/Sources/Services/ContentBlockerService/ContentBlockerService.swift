@@ -16,7 +16,15 @@ public struct ContentBlockerService: Sendable {
 extension ContentBlockerService: DependencyKey {
   public static let liveValue = ContentBlockerService(
     getStateOfContentBlocker: { contentBlockerID in
-      return false
+      await withCheckedContinuation { continuation in
+        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: contentBlockerID) { state, _ in
+          guard let state else {
+            continuation.resume(returning: false)
+            return
+          }
+          continuation.resume(returning: state.isEnabled)
+        }
+      }
     }
   )
 }

@@ -33,7 +33,9 @@ final class AppFeaturesTests: XCTestCase {
     testStore.dependencies.contentBlockerService.getStateOfContentBlocker = { _ in true }
     await testStore.send(.scenceDidActive)
     await testStore.receive(.checkContentBlockerEnable)
-    await testStore.receive(.isContentBlockerEnable(true))
+    await testStore.receive(.isContentBlockerEnable(true)) {
+      $0.isEnableContentBlocker = true
+    }
   }
   
   // 進入畫面_contentBlocker權限已開啟
@@ -45,6 +47,8 @@ final class AppFeaturesTests: XCTestCase {
     
     await testStore.send(.scenceDidActive)
     await testStore.receive(.checkContentBlockerEnable)
-    await testStore.receive(.isContentBlockerEnable(true))
+    await testStore.receive(.isContentBlockerEnable(true)) {
+      $0.isEnableContentBlocker = true
+    }
   }
 }

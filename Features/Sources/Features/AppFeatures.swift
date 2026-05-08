@@ -21,7 +21,7 @@ struct HomeView: View {
   let store: StoreOf<AppFeature>
 
   var body: some View {
-    Text("ADClearApp")
+    Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
       .onChange(of: scenePhase) { _, newPhase in
         switch newPhase {
           
@@ -39,7 +39,9 @@ struct HomeView: View {
 @Reducer
 struct AppFeature {
   @ObservableState
-  struct State: Equatable {}
+  struct State: Equatable {
+    var isEnableContentBlocker = false
+  }
   
   enum Action: Equatable {
     case scenceDidActive
@@ -63,6 +65,7 @@ struct AppFeature {
         }
         
       case .isContentBlockerEnable(let isEnable):
+        state.isEnableContentBlocker = isEnable
         return .none
       }
     }
