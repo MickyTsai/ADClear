@@ -7,7 +7,8 @@ import XCTest
 final class AppFeaturesTests: XCTestCase {
   
   func test_appLunch() async throws {
-    let testStore = TestStore(initialState: AppFeature.State(), reducer: { AppFeature() })
+    let testStore = TestStore(initialState: AppFeature.State(),
+                              reducer: { AppFeature() })
     
     await testStore.send(.scenceDidActive)
     await testStore.receive(.checkContentBlockerEnable)

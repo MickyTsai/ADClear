@@ -8,8 +8,30 @@ import ComposableArchitecture
 struct ADClearApp: App {
   var body: some Scene {
     WindowGroup {
-      Text("ADClearApp")
+      HomeView(store: Store(initialState: AppFeature.State(),
+                            reducer: { AppFeature() }))
     }
+  }
+}
+
+struct HomeView: View {
+  @Environment(\.scenePhase) private var scenePhase
+  
+  let store: StoreOf<AppFeature>
+
+  var body: some View {
+    Text("ADClearApp")
+      .onChange(of: scenePhase) { _, newPhase in
+        switch newPhase {
+          
+        case .background, .inactive:
+          break
+        case .active:
+          store.send(.scenceDidActive)
+        @unknown default:
+          fatalError()
+        }
+      }
   }
 }
 
@@ -34,7 +56,6 @@ struct AppFeature {
       case .isContentBlockerEnable(let isEnable):
         return .none
       }
-      
     }
   }
 }
