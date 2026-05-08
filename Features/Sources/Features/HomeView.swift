@@ -11,7 +11,7 @@ import ComposableArchitecture
 struct HomeView: View {
   @Environment(\.scenePhase) private var scenePhase
   
-  let store: StoreOf<HomeFeature>
+  @Bindable var store: StoreOf<HomeFeature>
 
   var body: some View {
     Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
@@ -26,5 +26,6 @@ struct HomeView: View {
           fatalError()
         }
       }
+      .alert($store.scope(state: \.alert, action: \.alert))
   }
 }
