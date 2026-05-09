@@ -18,7 +18,6 @@ struct HomeFeature {
   enum Action: Equatable {
     case alert(PresentationAction<Alert>)
     case scenceDidActive
-    case checkContentBlockerEnable
     case isContentBlockerEnable(Bool)
 
     @CasePathable
@@ -29,51 +28,39 @@ struct HomeFeature {
   }
 
   var body: some ReducerOf<Self> {
+    Reduce(core)
+      .ifLet(\.$alert, action: \.alert)
+  }
+  
+  func core(into state: inout State, action: Action) -> Effect<Action> {
     @Dependency(\.contentBlockerService) var contentBlockerService
-
-    Reduce { state, action in
-      switch action {
-
-      case .alert:
-        return .none
-
-      case .scenceDidActive:
-        return .send(.checkContentBlockerEnable)
-
-      case .checkContentBlockerEnable:
-        return .run { send in
-          let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
-          let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
-          await send(.isContentBlockerEnable(isEnable))
-        }
-
-      case .isContentBlockerEnable(let isEnable):
-        state.isEnableContentBlocker = isEnable
-        if !isEnable {
-          state.alert = .disableContentBlockerAlert
-        }
-        return .none
+    
+    // 取得 ContentBlocker 狀態
+    func getStateOfContentBlocker() -> Effect<Action> {
+      return .run { send in
+        let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
+        let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
+        await send(.isContentBlockerEnable(isEnable))
       }
     }
-    .ifLet(\.$alert, action: \.alert)
-  }
-}
+    
+    switch action {
 
-extension AlertState<HomeFeature.Action.Alert> {
-  static var disableContentBlockerAlert: Self {
-    AlertState {
-      TextState("disableContentBlockerAlert")
-    } actions: {
-      ButtonState(role: .cancel,
-                  label: {TextState("cancel")} )
-      ButtonState(action: .alreadyEnableContentBlocker,
-                  label: {TextState("Enabled")})
-      
-    } message: {
-      TextState("""
-「前往啟用 Safari 延伸功能」
-設定 > App > Safari > 延伸功能
-""")
+    case .alert(.presented(.alreadyEnableContentBlocker)):
+      return getStateOfContentBlocker()
+
+    case .alert:
+      return .none
+
+    case .scenceDidActive:
+      return getStateOfContentBlocker()
+
+    case .isContentBlockerEnable(let isEnable):
+      state.isEnableContentBlocker = isEnable
+      if !isEnable {
+        state.alert = .disableContentBlockerAlert
+      }
+      return .none
     }
   }
 }

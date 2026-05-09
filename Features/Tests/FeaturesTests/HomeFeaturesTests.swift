@@ -4,7 +4,7 @@ import XCTest
 @testable import Features
 
 @MainActor
-final class AppFeaturesTests: XCTestCase {
+final class HomeFeaturesTests: XCTestCase {
   
   // 進入畫面_contentBlocker權限未開啟
   func test_scenceDidActive_contentBlockerDisable() async throws {
@@ -14,8 +14,9 @@ final class AppFeaturesTests: XCTestCase {
     }
     
     await testStore.send(.scenceDidActive)
-    await testStore.receive(.checkContentBlockerEnable)
-    await testStore.receive(.isContentBlockerEnable(false))
+    await testStore.receive(.isContentBlockerEnable(false)) {
+      $0.alert = .disableContentBlockerAlert
+    }
   }
   
   // 進入畫面_contentBlocker權限未開啟_後續使用者開啟
@@ -26,13 +27,13 @@ final class AppFeaturesTests: XCTestCase {
     }
     
     await testStore.send(.scenceDidActive)
-    await testStore.receive(.checkContentBlockerEnable)
-    await testStore.receive(.isContentBlockerEnable(false))
+    await testStore.receive(.isContentBlockerEnable(false)) {
+      $0.alert = .disableContentBlockerAlert
+    }
     
     // 模擬使用者後續已開啟
     testStore.dependencies.contentBlockerService.getStateOfContentBlocker = { _ in true }
     await testStore.send(.scenceDidActive)
-    await testStore.receive(.checkContentBlockerEnable)
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
@@ -46,7 +47,6 @@ final class AppFeaturesTests: XCTestCase {
     }
     
     await testStore.send(.scenceDidActive)
-    await testStore.receive(.checkContentBlockerEnable)
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
