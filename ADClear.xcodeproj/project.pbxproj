@@ -52,6 +52,7 @@
 /* Begin PBXFileReference section */
 		814509682FAC7EC500E4957C /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		814509772FAC7F2400E4957C /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
+		8176BA882FAF745E0026A4E9 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = TestPlan.xctestplan; path = ADClear/TestPlan.xctestplan; sourceTree = "<group>"; };
 		81CFFDFA2FAC675F00FA2422 /* ADClear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADClear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE072FAC676100FA2422 /* ADClearTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE112FAC676200FA2422 /* ADClearUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,13 +65,6 @@
 				Info.plist,
 			);
 			target = 814509672FAC7EC500E4957C /* ContentBlocker */;
-		};
-		814509792FAC859A00E4957C /* Exceptions for "ADClear" folder in "ADClear" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"test plan.xctestplan",
-			);
-			target = 81CFFDF92FAC675F00FA2422 /* ADClear */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -85,9 +79,6 @@
 		};
 		81CFFDFC2FAC675F00FA2422 /* ADClear */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				814509792FAC859A00E4957C /* Exceptions for "ADClear" folder in "ADClear" target */,
-			);
 			path = ADClear;
 			sourceTree = "<group>";
 		};
@@ -146,6 +137,7 @@
 		81CFFDF12FAC675F00FA2422 = {
 			isa = PBXGroup;
 			children = (
+				8176BA882FAF745E0026A4E9 /* TestPlan.xctestplan */,
 				814509772FAC7F2400E4957C /* Features */,
 				81CFFDFC2FAC675F00FA2422 /* ADClear */,
 				81CFFE0A2FAC676200FA2422 /* ADClearTests */,
