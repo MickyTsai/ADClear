@@ -43,7 +43,7 @@ final class HomeFeaturesTests: XCTestCase {
   func test_scenceDidActive_contentBlockerEnabled() async throws {
     let testStore = TestStore(initialState: HomeFeature.State(),
                               reducer: { HomeFeature() }) {
-      $0.contentBlockerService.getStateOfContentBlocker = { _ in true}
+      $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
     }
     
     await testStore.send(.scenceDidActive)

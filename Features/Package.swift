@@ -14,13 +14,14 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.25.5"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.12.0"),
+    .package(url: "https://github.com/AdguardTeam/SafariConverterLib", exact: "4.2.2"),
   ],
   targets: [
     // Targets are the basic building blocks of a package, defining a module or a test suite.
     // Targets can depend on other targets in this package and products from dependencies.
     .target(name: "Features", dependencies: [.tca, .services]),
     .testTarget(name: "FeaturesTests", dependencies: ["Features", .tca]),
-    .target(name: "Services", dependencies: [.dependencies])
+    .target(name: "Services", dependencies: [.dependencies, .safariConverterLib])
   ]
 )
 // First-party
@@ -33,4 +34,6 @@ extension Target.Dependency {
 extension Target.Dependency {
   static let tca = Self.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
   static let dependencies = Self.product(name: "Dependencies", package: "swift-dependencies")
+  static let safariConverterLib = Self.product(name: "ContentBlockerConverter", package: "SafariConverterLib")
+
 }

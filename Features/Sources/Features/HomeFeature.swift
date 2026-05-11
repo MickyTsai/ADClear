@@ -6,6 +6,7 @@
 //
 
 import ComposableArchitecture
+import Foundation
 
 @Reducer
 struct HomeFeature {
@@ -14,11 +15,12 @@ struct HomeFeature {
     @Presents var alert: AlertState<Action.Alert>?
     var isEnableContentBlocker = false
   }
-
+  
   enum Action: Equatable {
     case alert(PresentationAction<Alert>)
     case scenceDidActive
     case isContentBlockerEnable(Bool)
+    case tapRefreshBtn
 
     @CasePathable
     enum Alert {
@@ -26,7 +28,7 @@ struct HomeFeature {
       case alreadyEnableContentBlocker
     }
   }
-
+  
   var body: some ReducerOf<Self> {
     Reduce(core)
       .ifLet(\.$alert, action: \.alert)
@@ -34,6 +36,7 @@ struct HomeFeature {
   
   func core(into state: inout State, action: Action) -> Effect<Action> {
     @Dependency(\.contentBlockerService) var contentBlockerService
+    @Dependency(\.safariConverterLibService) var safariConverterLibService
     
     // 取得 ContentBlocker 狀態
     func getStateOfContentBlocker() -> Effect<Action> {
@@ -45,22 +48,28 @@ struct HomeFeature {
     }
     
     switch action {
-
+      
     case .alert(.presented(.alreadyEnableContentBlocker)):
       return getStateOfContentBlocker()
-
+      
     case .alert:
       return .none
-
+      
     case .scenceDidActive:
       return getStateOfContentBlocker()
-
+      
     case .isContentBlockerEnable(let isEnable):
       state.isEnableContentBlocker = isEnable
       if !isEnable {
         state.alert = .disableContentBlockerAlert
       }
       return .none
+      
+    case .tapRefreshBtn:
+      return .run { _ in
+        let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
+        try await safariConverterLibService.updateRules(url)
+      }
     }
   }
 }

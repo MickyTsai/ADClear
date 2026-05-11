@@ -14,10 +14,20 @@ struct HomeView: View {
   @Bindable var store: StoreOf<HomeFeature>
 
   var body: some View {
-    Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
+    NavigationStack {
+      VStack {
+        descriptionView
+      }
+      .navigationTitle("AD Blocker")
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar(content: {
+        ToolbarItem(placement: .topBarLeading) {
+          refreshButton
+        }
+      })
       .onChange(of: scenePhase) { _, newPhase in
         switch newPhase {
-
+          
         case .background, .inactive:
           break
         case .active:
@@ -26,6 +36,23 @@ struct HomeView: View {
           fatalError()
         }
       }
-      .alert($store.scope(state: \.alert, action: \.alert))
+    }
+    .alert($store.scope(state: \.alert, action: \.alert))
+  }
+  
+  @MainActor
+  @ViewBuilder
+  private var descriptionView: some View {
+    Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
+  }
+  
+  @MainActor
+  @ViewBuilder
+  private var refreshButton: some View {
+    Button {
+      store.send(.tapRefreshBtn)
+    } label: {
+      Image(systemName: "arrow.clockwise.circle")
+    }
   }
 }
