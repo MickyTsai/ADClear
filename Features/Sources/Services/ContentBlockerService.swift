@@ -11,6 +11,7 @@ import SafariServices
 public struct ContentBlockerService: Sendable {
   /// 取得  ContentBlocker 擴充功能是否開啟
   public var getStateOfContentBlocker: @Sendable (String) async -> Bool
+  
 }
 
 extension ContentBlockerService: DependencyKey {
