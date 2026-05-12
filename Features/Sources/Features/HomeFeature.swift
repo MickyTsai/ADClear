@@ -68,7 +68,7 @@ struct HomeFeature {
     case .tapRefreshBtn:
       return .run { _ in
         let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
-        try await safariConverterLibService.updateRules(url)
+        try await safariConverterLibService.fetchRules(url)
       }
     }
   }

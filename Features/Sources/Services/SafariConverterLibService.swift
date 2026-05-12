@@ -10,41 +10,49 @@ import Dependencies
 import Foundation
 
 public struct SafariConverterLibService: Sendable {
-  public var updateRules: @Sendable (_ from: URL) async throws -> Void
+  /// 抓取新規則，回傳規則數量來確認是否抓取成功
+  public var fetchRules: @Sendable (_ from: URL) async throws -> Int // 回傳規則數量
 }
 
 extension SafariConverterLibService: DependencyKey {
   public static let liveValue = Self(
-    updateRules: { url in
-      let (data, _) = try await URLSession.shared.data(from: url)
+    fetchRules: { url in
+      // 1. download
+      let (data, response) = try await URLSession.shared.data(from: url)
+      guard let response = response as? HTTPURLResponse, 200...299 ~= response.statusCode else {
+        throw URLError(.badServerResponse)
+      }
+      
+      // 2. convert
       guard let rawText = String(data: data, encoding: .utf8) else {
         throw URLError(.cannotDecodeContentData)
       }
 
+      // 3. save to app group
       var contiguousUTF8Text = rawText
       contiguousUTF8Text.makeContiguousUTF8()
       let splitText = contiguousUTF8Text.split(separator: "\n").map(String.init)
-      let json = ContentBlockerConverter().convertArray(
+      let result = ContentBlockerConverter().convertArray(
         rules: splitText,
         safariVersion: SafariVersion.autodetect(),
         advancedBlocking: false
       )
-      .safariRulesJSON
-
+      
       let appGroupID = "group.com.mickytsai.ADBlocker"
-      guard
-        let containerURL = FileManager.default.containerURL(
-          forSecurityApplicationGroupIdentifier: appGroupID)
-      else { return }
+      let containerURL = FileManager.default.containerURL(
+          forSecurityApplicationGroupIdentifier: appGroupID)!
+
       let fileURL = containerURL.appendingPathComponent("blockerList.json")
-      try json.write(to: fileURL, atomically: true, encoding: .utf8)
+      try result.safariRulesJSON.write(to: fileURL, atomically: true, encoding: .utf8)
+      
+      return result.safariRulesCount
     }
   )
 }
 
 extension SafariConverterLibService: TestDependencyKey {
   public static let testValue = Self(
-    updateRules: unimplemented("updateRules")
+    fetchRules: unimplemented("updateRules")
   )
 }
 
