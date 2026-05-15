@@ -24,6 +24,9 @@ struct HomeView: View {
         ToolbarItem(placement: .topBarLeading) {
           refreshButton
         }
+        ToolbarItem(placement: .topBarTrailing) {
+          aboutButton
+        }
       })
       .onChange(of: scenePhase) { _, newPhase in
         switch newPhase {
@@ -54,6 +57,16 @@ struct HomeView: View {
       store.send(.tapRefreshBtn)
     } label: {
       Image(systemName: "arrow.clockwise.circle")
+    }
+  }
+
+  @MainActor
+  @ViewBuilder
+  private var aboutButton: some View {
+    Button {
+
+    } label: {
+      Image(systemName: "gearshape.fill")
     }
   }
 }

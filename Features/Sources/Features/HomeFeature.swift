@@ -21,6 +21,7 @@ struct HomeFeature {
     case scenceDidActive
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
+    case tapAboutBtn
 
     @CasePathable
     enum Alert {
@@ -70,6 +71,9 @@ struct HomeFeature {
         let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
         try await safariConverterLibService.fetchRules(url)
       }
+
+    case .tapAboutBtn:
+      return .none
     }
   }
 }
