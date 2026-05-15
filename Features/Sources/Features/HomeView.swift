@@ -17,6 +17,8 @@ struct HomeView: View {
     NavigationStack {
       VStack {
         descriptionView
+        Spacer()
+        bottomView
       }
       .navigationTitle("AD Blocker")
       .navigationBarTitleDisplayMode(.inline)
@@ -59,14 +61,24 @@ struct HomeView: View {
       Image(systemName: "arrow.clockwise.circle")
     }
   }
-
+  
   @MainActor
   @ViewBuilder
   private var aboutButton: some View {
     Button {
-
+      
     } label: {
       Image(systemName: "gearshape.fill")
+    }
+  }
+  
+  @MainActor
+  @ViewBuilder
+  private var bottomView: some View {
+    Button {
+      store.send(.tapBottomView)
+    } label: {
+      Text("bottomView")
     }
   }
 }

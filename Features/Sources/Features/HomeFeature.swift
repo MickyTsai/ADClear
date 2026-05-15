@@ -20,13 +20,16 @@ struct HomeFeature {
     case alert(PresentationAction<Alert>)
     case scenceDidActive
     case isContentBlockerEnable(Bool)
+    
     case tapRefreshBtn
     case tapAboutBtn
+    case tapBottomView
 
     @CasePathable
     enum Alert {
       case cancel
       case alreadyEnableContentBlocker
+      case openURL
     }
   }
   
@@ -38,6 +41,7 @@ struct HomeFeature {
   func core(into state: inout State, action: Action) -> Effect<Action> {
     @Dependency(\.contentBlockerService) var contentBlockerService
     @Dependency(\.safariConverterLibService) var safariConverterLibService
+    @Dependency(\.openURL) var openURL
     
     // 取得 ContentBlocker 狀態
     func getStateOfContentBlocker() -> Effect<Action> {
@@ -52,6 +56,11 @@ struct HomeFeature {
       
     case .alert(.presented(.alreadyEnableContentBlocker)):
       return getStateOfContentBlocker()
+      
+    case .alert(.presented(.openURL)):
+      return .run { send in
+        await openURL(URL(string: "https://github.com/pointfreeco/swift-composable-architecture/tree/7517cc32aa083773f096dc4724a0b83215bf3c55")!)
+      }
       
     case .alert:
       return .none
@@ -71,8 +80,12 @@ struct HomeFeature {
         let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
         try await safariConverterLibService.fetchRules(url)
       }
-
+      
     case .tapAboutBtn:
+      return .none
+      
+    case .tapBottomView:
+      state.alert = .tapBottomViewAlert
       return .none
     }
   }

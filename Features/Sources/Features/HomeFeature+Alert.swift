@@ -25,4 +25,15 @@ extension AlertState<HomeFeature.Action.Alert> {
       )
     }
   }
+  
+  static var tapBottomViewAlert: Self {
+    AlertState {
+      TextState("tapBottomViewAlert")
+    } actions: {
+      ButtonState(action: .openURL,
+                  label: {TextState("openURL")})
+    } message: {
+      TextState("openURL")
+    }
+  }
 }
