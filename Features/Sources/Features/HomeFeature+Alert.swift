@@ -12,17 +12,17 @@ extension AlertState<HomeFeature.Action.Alert> {
     AlertState {
       TextState("disableContentBlockerAlert")
     } actions: {
+      ButtonState(action: .alreadyEnableContentBlocker,
+                  label: {TextState("i'm enabled")})
+      
       ButtonState(role: .cancel,
                   label: {TextState("cancel")} )
-      ButtonState(action: .alreadyEnableContentBlocker,
-                  label: {TextState("Enabled")})
-      
     } message: {
       TextState("""
 「前往啟用 Safari 延伸功能」
 設定 > App > Safari > 延伸功能
-""")
-      
+"""
+      )
     }
   }
 }
