@@ -14,14 +14,15 @@ struct HomeFeature {
   struct State: Equatable {
     @Presents var alert: AlertState<Action.Alert>?
     var isEnableContentBlocker = false
+    var rulesCount = 0
   }
   
   enum Action: Equatable {
     case alert(PresentationAction<Alert>)
     case scenceDidActive
     case isContentBlockerEnable(Bool)
-    
     case tapRefreshBtn
+    case fetchRulesCount(Int)
     case tapAboutBtn
     case tapBottomView
 
@@ -68,6 +69,7 @@ struct HomeFeature {
     case .scenceDidActive:
       return getStateOfContentBlocker()
       
+    // ContentBlocker 狀態
     case .isContentBlockerEnable(let isEnable):
       state.isEnableContentBlocker = isEnable
       if !isEnable {
@@ -75,15 +77,32 @@ struct HomeFeature {
       }
       return .none
       
+    /// 點擊左上的刷新按鈕
     case .tapRefreshBtn:
-      return .run { _ in
+      return .run { send in
+        // 檢查 ContentBlocker 狀態
+        let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
+        let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
+        await send(.isContentBlockerEnable(isEnable))
+        guard isEnable else { return }
+        
+        // 從 easylist 抓取新規則
         let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
-        try await safariConverterLibService.fetchRules(url)
+        let rulesCount = try await safariConverterLibService.fetchRules(url)
+        await send (.fetchRulesCount(rulesCount))
       }
-      
+     
+    // 更新規則數量
+    case .fetchRulesCount(let count):
+      state.rulesCount = count
+      // TODO: 提示更新規則數量、更新畫面
+      return .none
+     
+    // 點擊右上的關於我按鈕
     case .tapAboutBtn:
       return .none
       
+    // 點擊下方的按鈕
     case .tapBottomView:
       state.alert = .tapBottomViewAlert
       return .none

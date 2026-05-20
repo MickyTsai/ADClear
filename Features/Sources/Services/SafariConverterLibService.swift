@@ -27,8 +27,6 @@ extension SafariConverterLibService: DependencyKey {
       guard let rawText = String(data: data, encoding: .utf8) else {
         throw URLError(.cannotDecodeContentData)
       }
-
-      // 3. save to app group
       var contiguousUTF8Text = rawText
       contiguousUTF8Text.makeContiguousUTF8()
       let splitText = contiguousUTF8Text.split(separator: "\n").map(String.init)
@@ -38,10 +36,9 @@ extension SafariConverterLibService: DependencyKey {
         advancedBlocking: false
       )
       
+      // 3. save to app group
       let appGroupID = "group.com.mickytsai.ADBlocker"
-      let containerURL = FileManager.default.containerURL(
-          forSecurityApplicationGroupIdentifier: appGroupID)!
-
+      let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
       let fileURL = containerURL.appendingPathComponent("blockerList.json")
       try result.safariRulesJSON.write(to: fileURL, atomically: true, encoding: .utf8)
       
@@ -52,7 +49,7 @@ extension SafariConverterLibService: DependencyKey {
 
 extension SafariConverterLibService: TestDependencyKey {
   public static let testValue = Self(
-    fetchRules: unimplemented("updateRules")
+    fetchRules: unimplemented("updateRules", placeholder: 0)
   )
 }
 

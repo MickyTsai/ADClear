@@ -10,18 +10,15 @@ extension AlertState<HomeFeature.Action.Alert> {
   /// 未開啟 contentBlocker 警告
   static var disableContentBlockerAlert: Self {
     AlertState {
-      TextState("disableContentBlockerAlert")
+      TextState("請開啟 Safari 延伸功能")
     } actions: {
       ButtonState(action: .alreadyEnableContentBlocker,
-                  label: {TextState("i'm enabled")})
+                  label: {TextState("好")})
       
       ButtonState(role: .cancel,
-                  label: {TextState("cancel")} )
+                  label: {TextState("取消")} )
     } message: {
-      TextState("""
-「前往啟用 Safari 延伸功能」
-設定 > App > Safari > 延伸功能
-"""
+      TextState("「前往啟用 Safari 延伸功能」設定 > App > Safari > 延伸功能"
       )
     }
   }

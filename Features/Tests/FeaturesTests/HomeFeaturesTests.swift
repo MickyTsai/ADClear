@@ -6,8 +6,8 @@ import XCTest
 @MainActor
 final class HomeFeaturesTests: XCTestCase {
 
-  // 進入畫面_contentBlocker權限未開啟
-  func test_scenceDidActive_contentBlockerDisable() async throws {
+  // 進入畫面_contentBlocker權限尚未開啟
+  func testScenceDidActive_contentBlockerDisable() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -21,8 +21,8 @@ final class HomeFeaturesTests: XCTestCase {
     }
   }
 
-  // 進入畫面_contentBlocker權限未開啟_後續使用者開啟
-  func test_scenceDidActive_contentBlockerDisable_userEnabled() async throws {
+  // 進入畫面_contentBlocker權限尚未開啟_後續使用者開啟
+  func testScenceDidActive_contentBlockerDisable_userEnabled() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -44,7 +44,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
 
   // 進入畫面_contentBlocker權限已開啟
-  func test_scenceDidActive_contentBlockerEnabled() async throws {
+  func testScenceDidActive_contentBlockerEnabled() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -55,6 +55,40 @@ final class HomeFeaturesTests: XCTestCase {
     await testStore.send(.scenceDidActive)
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
+    }
+  }
+  
+  // 點擊刷新按鈕_contentBlocker權限尚未開啟
+  func testTapRefreshBtn_contentBlockerDisable() async throws {
+    let testStore = TestStore(
+      initialState: HomeFeature.State(),
+      reducer: { HomeFeature() }
+    ) {
+      $0.contentBlockerService.getStateOfContentBlocker = { _ in false }
+    }
+    
+    await testStore.send(.tapRefreshBtn)
+    await testStore.receive(.isContentBlockerEnable(false)) {
+      $0.alert = .disableContentBlockerAlert
+    }
+  }
+  
+  // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則
+  func testTapRefreshBtn_contentBlockerEnabled() async throws {
+    let testStore = TestStore(
+      initialState: HomeFeature.State(),
+      reducer: { HomeFeature() }
+    ) {
+      $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
+      $0.safariConverterLibService.fetchRules = { _ in 10 }
+    }
+    
+    await testStore.send(.tapRefreshBtn)
+    await testStore.receive(.isContentBlockerEnable(true)) {
+      $0.isEnableContentBlocker = true
+    }
+    await testStore.receive(.fetchRulesCount(10)) {
+      $0.rulesCount = 10
     }
   }
 
