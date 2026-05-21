@@ -77,7 +77,7 @@ struct HomeFeature {
       }
       return .none
       
-    /// 點擊左上的刷新按鈕
+    // 點擊左上的刷新按鈕
     case .tapRefreshBtn:
       return .run { send in
         // 檢查 ContentBlocker 狀態
@@ -95,7 +95,7 @@ struct HomeFeature {
     // 更新規則數量
     case .fetchRulesCount(let count):
       state.rulesCount = count
-      // TODO: 提示更新規則數量、更新畫面
+      state.alert = AlertState.fetchRulesCountAlert(count: count)
       return .none
      
     // 點擊右上的關於我按鈕
