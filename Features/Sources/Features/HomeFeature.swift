@@ -14,7 +14,6 @@ struct HomeFeature {
   struct State: Equatable {
     @Presents var alert: AlertState<Action.Alert>?
     var isEnableContentBlocker = false
-    var rulesCount = 0
   }
   
   enum Action: Equatable {
@@ -94,7 +93,6 @@ struct HomeFeature {
      
     // 更新規則數量
     case .fetchRulesCount(let count):
-      state.rulesCount = count
       state.alert = AlertState.fetchRulesCountAlert(count: count)
       return .none
      
