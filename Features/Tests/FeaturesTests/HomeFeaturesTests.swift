@@ -19,6 +19,14 @@ final class HomeFeaturesTests: XCTestCase {
     await testStore.receive(.isContentBlockerEnable(false)) {
       $0.alert = .disableContentBlockerAlert
     }
+    
+    // 點擊 alert 的確定但實際還是沒開
+    await testStore.send(.alert(.presented(.alreadyEnableContentBlocker))) {
+      $0.alert = nil
+    }
+    await testStore.receive(.isContentBlockerEnable(false)) {
+      $0.alert = .disableContentBlockerAlert
+    }
   }
 
   // 進入畫面_contentBlocker權限尚未開啟_後續使用者開啟
