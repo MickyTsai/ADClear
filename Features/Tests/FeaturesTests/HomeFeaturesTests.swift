@@ -81,14 +81,14 @@ final class HomeFeaturesTests: XCTestCase {
     }
   }
   
-  // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則
-  func testTapRefreshBtn_contentBlockerEnabled() async throws {
+  // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則成功
+  func testTapRefreshBtn_contentBlockerEnabled_fetchRulesSusscess() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
     ) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
-      $0.safariConverterLibService.fetchRules = { _ in 10 }
+      $0.safariConverterLibService.fetchRules = { _ in 10 } // 模擬取得10個規則
     }
     
     await testStore.send(.tapRefreshBtn)
@@ -96,7 +96,26 @@ final class HomeFeaturesTests: XCTestCase {
       $0.isEnableContentBlocker = true
     }
     await testStore.receive(.fetchRulesCount(10)) {
-      $0.rulesCount = 10
+      $0.alert =  AlertState.fetchRulesCountAlert(count: 10)
+    }
+  }
+  
+  // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則失敗
+  func testTapRefreshBtn_contentBlockerEnabled_fetchRulesFaild() async throws {
+    let testStore = TestStore(
+      initialState: HomeFeature.State(),
+      reducer: { HomeFeature() }
+    ) {
+      $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
+      $0.safariConverterLibService.fetchRules = { _ in 0 }
+    }
+    
+    await testStore.send(.tapRefreshBtn)
+    await testStore.receive(.isContentBlockerEnable(true)) {
+      $0.isEnableContentBlocker = true
+    }
+    await testStore.receive(.fetchRulesCount(0)) {
+      $0.alert =  AlertState.fetchRulesCountAlert(count: 0)
     }
   }
 
