@@ -43,6 +43,11 @@ struct HomeFeature {
     @Dependency(\.safariConverterLibService) var safariConverterLibService
     @Dependency(\.openURL) var openURL
     
+    enum CancelID {
+      case getStateOfContentBlocker
+      case tapRefreshBtn
+    }
+    
     // 取得 ContentBlocker 狀態
     func getStateOfContentBlocker() -> Effect<Action> {
       return .run { send in
@@ -50,6 +55,7 @@ struct HomeFeature {
         let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
         await send(.isContentBlockerEnable(isEnable))
       }
+      .cancellable(id: CancelID.getStateOfContentBlocker, cancelInFlight: true)
     }
     
     switch action {
@@ -65,6 +71,7 @@ struct HomeFeature {
     case .alert:
       return .none
       
+    // APP畫面進入前景
     case .scenceDidActive:
       return getStateOfContentBlocker()
       
@@ -90,6 +97,7 @@ struct HomeFeature {
         let rulesCount = try await safariConverterLibService.fetchRules(url)
         await send (.fetchRulesCount(rulesCount))
       }
+      .cancellable(id: CancelID.tapRefreshBtn, cancelInFlight: true)
      
     // 更新規則數量
     case .fetchRulesCount(let count):

@@ -119,6 +119,7 @@ final class HomeFeaturesTests: XCTestCase {
     }
   }
 
+  // 點擊bottomView_點擊開啟網址
   func testAlert_bottomViewAlert_openURL() async throws {
     let openURLExp = XCTestExpectation(description: "openURL")
 
