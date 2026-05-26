@@ -39,7 +39,7 @@ extension AlertState<HomeFeature.Action.Alert> {
   static func fetchRulesCountAlert(count: Int) -> Self {
     var title = TextState("更新成功")
     var message = TextState("成功更新 \(count) 條規則")
-    var actionBtn = ButtonState<HomeFeature.Action.Alert>(role: .cancel,
+    let actionBtn = ButtonState<HomeFeature.Action.Alert>(role: .cancel,
                                                           label: {TextState("好")} )
     if count == 0 {
       title = TextState("更新失敗")
