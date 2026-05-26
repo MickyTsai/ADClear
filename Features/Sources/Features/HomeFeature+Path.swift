@@ -11,6 +11,7 @@ extension HomeFeature {
   @Reducer
   enum Path {
     case about(AboutFeature)
+    case blockerList(BlockerListFeature)
   }
 }
 

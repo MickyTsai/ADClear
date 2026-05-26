@@ -68,10 +68,14 @@ struct HomeFeature {
       
     case .alert(.presented(.openURL)):
       return .run { send in
-        await openURL(URL(string: "https://github.com/pointfreeco/swift-composable-architecture/tree/7517cc32aa083773f096dc4724a0b83215bf3c55")!)
+        await openURL(.tcaWebsite)
       }
       
     case .alert:
+      return .none
+      
+    case .path(.element(id: _, action: .about(.tapBlockerListcell))):
+      state.path.append(.blockerList(.init()))
       return .none
       
     case .path:
@@ -99,8 +103,7 @@ struct HomeFeature {
         guard isEnable else { return }
         
         // 從 easylist 抓取新規則
-        let url = URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
-        let rulesCount = try await safariConverterLibService.fetchRules(url)
+        let rulesCount = try await safariConverterLibService.fetchRules(URL.easylist)
         await send (.fetchRulesCount(rulesCount))
       }
       .cancellable(id: CancelID.tapRefreshBtn, cancelInFlight: true)

@@ -45,8 +45,10 @@ struct HomeView: View {
       }
     } destination: { store in
       switch store.case {
-      case .about(let aboutFeature):
-        AboutView(store: aboutFeature)
+      case .about(let store):
+        AboutView(store: store)
+      case .blockerList(let store):
+        BlockerListView(store: store)
       }
     }
     .alert($store.scope(state: \.alert, action: \.alert))
