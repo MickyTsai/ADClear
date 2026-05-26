@@ -13,11 +13,13 @@ struct HomeFeature {
   @ObservableState
   struct State: Equatable {
     @Presents var alert: AlertState<Action.Alert>?
+    var path = StackState<Path.State>()
     var isEnableContentBlocker = false
   }
   
   enum Action: Equatable {
     case alert(PresentationAction<Alert>)
+    case path(StackActionOf<Path>)
     case scenceDidActive
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
@@ -36,6 +38,7 @@ struct HomeFeature {
   var body: some ReducerOf<Self> {
     Reduce(core)
       .ifLet(\.$alert, action: \.alert)
+      .forEach(\.path, action: \.path)
   }
   
   func core(into state: inout State, action: Action) -> Effect<Action> {
@@ -69,6 +72,9 @@ struct HomeFeature {
       }
       
     case .alert:
+      return .none
+      
+    case .path:
       return .none
       
     // APP畫面進入前景
@@ -106,6 +112,7 @@ struct HomeFeature {
      
     // 點擊右上的關於我按鈕
     case .tapAboutBtn:
+      state.path.append(.about(.init()))
       return .none
       
     // 點擊下方的按鈕

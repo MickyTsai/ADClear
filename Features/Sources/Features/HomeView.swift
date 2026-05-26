@@ -14,7 +14,9 @@ struct HomeView: View {
   @Bindable var store: StoreOf<HomeFeature>
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(
+      path: $store.scope(state:\.path, action: \.path)
+    ) {
       VStack {
         descriptionView
         Spacer()
@@ -41,6 +43,11 @@ struct HomeView: View {
           fatalError()
         }
       }
+    } destination: { store in
+      switch store.case {
+      case .about(let aboutFeature):
+        AboutView(store: aboutFeature)
+      }
     }
     .alert($store.scope(state: \.alert, action: \.alert))
     .preferredColorScheme(.dark)
@@ -66,7 +73,7 @@ struct HomeView: View {
   @ViewBuilder
   private var aboutButton: some View {
     Button {
-      
+      store.send(.tapAboutBtn)
     } label: {
       Image(systemName: "gearshape.fill")
     }
