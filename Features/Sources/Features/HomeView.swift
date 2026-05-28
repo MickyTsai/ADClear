@@ -17,6 +17,9 @@ struct HomeView: View {
     NavigationStack(
       path: $store.scope(state:\.path, action: \.path)
     ) {
+      if store.isRefreshingContentBlocker {
+        ProgressView()
+      }
       VStack {
         descriptionView
         Spacer()
@@ -68,13 +71,8 @@ struct HomeView: View {
     Button {
       store.send(.tapRefreshBtn)
     } label: {
-      if store.isRefreshingContentBlocker {
-        ProgressView()
-      } else {
         Image(systemName: "arrow.clockwise.circle")
-      }
     }
-    .opacity(store.isRefreshingContentBlocker ? 0 : 1)
     .disabled(store.isRefreshingContentBlocker)
   }
   
