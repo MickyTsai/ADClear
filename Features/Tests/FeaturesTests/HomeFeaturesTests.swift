@@ -75,9 +75,12 @@ final class HomeFeaturesTests: XCTestCase {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in false }
     }
     
-    await testStore.send(.tapRefreshBtn)
+    await testStore.send(.tapRefreshBtn) {
+      $0.isRefreshingContentBlocker = true
+    }
     await testStore.receive(.isContentBlockerEnable(false)) {
       $0.alert = .disableContentBlockerAlert
+      $0.isRefreshingContentBlocker = false
     }
   }
   
@@ -91,12 +94,15 @@ final class HomeFeaturesTests: XCTestCase {
       $0.safariConverterLibService.fetchRules = { _ in 10 } // 模擬取得10個規則
     }
     
-    await testStore.send(.tapRefreshBtn)
+    await testStore.send(.tapRefreshBtn) {
+      $0.isRefreshingContentBlocker = true
+    }
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
     await testStore.receive(.fetchRulesCount(10)) {
       $0.alert =  AlertState.fetchRulesCountAlert(count: 10)
+      $0.isRefreshingContentBlocker = false
     }
   }
   
@@ -110,12 +116,15 @@ final class HomeFeaturesTests: XCTestCase {
       $0.safariConverterLibService.fetchRules = { _ in 0 }
     }
     
-    await testStore.send(.tapRefreshBtn)
+    await testStore.send(.tapRefreshBtn) {
+      $0.isRefreshingContentBlocker = true
+    }
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
     await testStore.receive(.fetchRulesCount(0)) {
       $0.alert =  AlertState.fetchRulesCountAlert(count: 0)
+      $0.isRefreshingContentBlocker = false
     }
   }
 
