@@ -17,6 +17,8 @@ public struct SafariConverterLibService: Sendable {
 extension SafariConverterLibService: DependencyKey {
   public static let liveValue = Self(
     fetchRules: { url in
+      try? await Task.sleep(for: .seconds(3))
+      
       // 1. download
       let (data, response) = try await URLSession.shared.data(from: url)
       guard let response = response as? HTTPURLResponse, 200...299 ~= response.statusCode else {
