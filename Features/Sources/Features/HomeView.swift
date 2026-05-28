@@ -68,8 +68,14 @@ struct HomeView: View {
     Button {
       store.send(.tapRefreshBtn)
     } label: {
-      Image(systemName: "arrow.clockwise.circle")
+      if store.isRefreshingContentBlocker {
+        ProgressView()
+      } else {
+        Image(systemName: "arrow.clockwise.circle")
+      }
     }
+    .opacity(store.isRefreshingContentBlocker ? 0 : 1)
+    .disabled(store.isRefreshingContentBlocker)
   }
   
   @MainActor
