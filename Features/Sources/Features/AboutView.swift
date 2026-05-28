@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 struct AboutView: View {
-  var store: StoreOf<AboutFeature>
+  @Bindable var store: StoreOf<AboutFeature>
 
   var body: some View {
     List {
@@ -23,6 +23,9 @@ struct AboutView: View {
         aboutCell
       }
     }
+    .alert($store.scope(state: \.alert, action: \.alert))
+    .navigationTitle("關於")
+    .navigationBarTitleDisplayMode(.inline)
     .preferredColorScheme(.dark)
   }
 
@@ -84,8 +87,10 @@ struct AboutView: View {
 }
 
 #Preview {
-  AboutView(
-    store: .init(
-      initialState: AboutFeature.State(),
-      reducer: { AboutFeature() }))
+  NavigationStack {
+    AboutView(
+      store: .init(
+        initialState: AboutFeature.State(),
+        reducer: { AboutFeature() }))
+  }
 }
