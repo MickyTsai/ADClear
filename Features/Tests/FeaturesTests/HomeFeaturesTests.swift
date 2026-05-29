@@ -21,7 +21,7 @@ final class HomeFeaturesTests: XCTestCase {
     }
     
     // 點擊 alert 的確定但實際還是沒開
-    await testStore.send(.alert(.presented(.alreadyEnableContentBlocker))) {
+    await testStore.send(\.alert.presented.alreadyEnableContentBlocker) {
       $0.alert = nil
     }
     await testStore.receive(.isContentBlockerEnable(false)) {
