@@ -10,7 +10,9 @@ import ComposableArchitecture
 @Reducer
 struct BlockerListFeature {
   @ObservableState
-  struct State: Equatable {}
+  struct State: Equatable {
+    var ruleItems: [RuleItem] = []
+  }
   
   enum Action: Equatable {}
   

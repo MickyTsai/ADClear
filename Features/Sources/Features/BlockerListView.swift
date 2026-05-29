@@ -12,13 +12,39 @@ struct BlockerListView: View {
   var store: StoreOf<BlockerListFeature>
 
   var body: some View {
-    Text("BlockerListView")
+    List {
+      ForEach(store.ruleItems) { ruleItem in
+        VStack(alignment: .leading) {
+          Text("\(ruleItem.title)")
+            .font(.headline)
+          Text("\(ruleItem.discription)")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+        }
+      }
+    }
+    .navigationTitle("已封鎖的蓋版廣告網站")
+    .navigationBarTitleDisplayMode(.inline)
   }
 }
 
 #Preview {
-  BlockerListView(
-    store: .init(
-      initialState: BlockerListFeature.State(),
-      reducer: { BlockerListFeature() }))
+  NavigationStack {
+    BlockerListView(
+      store: .init(
+        initialState: BlockerListFeature.State(
+          ruleItems: [
+            .init(title: "測試 title", discription: "測試 discription"),
+            .init(title: "測試 title2", discription: "測試 discription2")]
+        ),
+        reducer: { BlockerListFeature() }))
+  }
+  .preferredColorScheme(.dark)
+}
+
+struct RuleItem: Identifiable, Equatable {
+  let id = UUID()
+  
+  var title: String
+  var discription: String
 }

@@ -93,4 +93,5 @@ struct AboutView: View {
         initialState: AboutFeature.State(),
         reducer: { AboutFeature() }))
   }
+  .preferredColorScheme(.dark)
 }
