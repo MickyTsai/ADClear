@@ -10,16 +10,16 @@ import SafariServices
 // Safari 擴充功能 ContentBlocker
 public struct ContentBlockerService: Sendable {
   /// 取得  ContentBlocker 擴充功能是否開啟
-  public var getStateOfContentBlocker: @Sendable (String) async -> Bool
+  public var getStateOfContentBlocker: @Sendable (_ bundleID: String) async -> Bool
   /// 重載 ContentBlocker
-  public var reloadContentBlocker: @Sendable (String) async throws -> Void
+  public var reloadContentBlocker: @Sendable (_ bundleID: String) async throws -> Void
 }
 
 extension ContentBlockerService: DependencyKey {
   public static let liveValue = ContentBlockerService(
-    getStateOfContentBlocker: { contentBlockerID in
+    getStateOfContentBlocker: { bundleID in
       await withCheckedContinuation { continuation in
-        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: contentBlockerID) { state, _ in
+        SFContentBlockerManager.getStateOfContentBlocker(withIdentifier: bundleID) { state, _ in
           guard let state else {
             continuation.resume(returning: false)
             return
@@ -28,8 +28,8 @@ extension ContentBlockerService: DependencyKey {
         }
       }
     },
-    reloadContentBlocker: { contentBlockerID in
-      try await SFContentBlockerManager.reloadContentBlocker(withIdentifier: contentBlockerID)
+    reloadContentBlocker: { bundleID in
+      try await SFContentBlockerManager.reloadContentBlocker(withIdentifier: bundleID)
     }
   )
 }

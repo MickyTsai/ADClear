@@ -11,7 +11,7 @@ import Foundation
 
 public struct SafariConverterLibService: Sendable {
   /// 抓取新規則，回傳規則數量來確認是否抓取成功
-  public var fetchRules: @Sendable (_ from: URL) async throws -> Int // 回傳規則數量
+  public var fetchRules: @Sendable (_ url: URL) async throws -> Int // 回傳規則數量
 }
 
 extension SafariConverterLibService: DependencyKey {
