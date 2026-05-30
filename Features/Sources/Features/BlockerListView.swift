@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import SwiftUI
+import Models
 
 struct BlockerListView: View {
   var store: StoreOf<BlockerListFeature>
@@ -25,6 +26,9 @@ struct BlockerListView: View {
     }
     .navigationTitle("已封鎖的蓋版廣告網站")
     .navigationBarTitleDisplayMode(.inline)
+    .task {
+      await store.send(.loadRules).finish()
+    }
   }
 }
 
@@ -40,11 +44,4 @@ struct BlockerListView: View {
         reducer: { BlockerListFeature() }))
   }
   .preferredColorScheme(.dark)
-}
-
-struct RuleItem: Identifiable, Equatable {
-  let id = UUID()
-  
-  var title: String
-  var discription: String
 }
