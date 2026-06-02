@@ -11,6 +11,7 @@ import SafariServices
 public struct ContentBlockerService: Sendable {
   /// 取得  ContentBlocker 擴充功能是否開啟
   public var getStateOfContentBlocker: @Sendable (_ bundleID: String) async -> Bool
+  
   /// 重載 ContentBlocker
   public var reloadContentBlocker: @Sendable (_ bundleID: String) async throws -> Void
 }
@@ -29,7 +30,15 @@ extension ContentBlockerService: DependencyKey {
       }
     },
     reloadContentBlocker: { bundleID in
-      try await SFContentBlockerManager.reloadContentBlocker(withIdentifier: bundleID)
+      try await withCheckedThrowingContinuation { continuation in
+        SFContentBlockerManager.reloadContentBlocker(withIdentifier: bundleID) { error in
+          if let error {
+            continuation.resume(throwing: error)
+          } else {
+            continuation.resume()
+          }
+        }
+      }
     }
   )
 }
@@ -42,7 +51,7 @@ extension ContentBlockerService: TestDependencyKey {
 }
 
 extension DependencyValues {
-  public var contentBlockerService: ContentBlockerService {
+public var contentBlockerService: ContentBlockerService {
     get { self[ContentBlockerService.self] }
     set { self[ContentBlockerService.self] = newValue }
   }
