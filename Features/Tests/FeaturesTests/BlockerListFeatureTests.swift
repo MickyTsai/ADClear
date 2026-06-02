@@ -13,7 +13,13 @@ import XCTest
 @MainActor
 final class BlockerListFeatureTests: XCTestCase {
   func testLoadRules() async throws {
+    let testStore = TestStore(
+      initialState: BlockerListFeature.State(),
+      reducer: { BlockerListFeature() }
+    )
     
+    await testStore.send(.loadRules)
+    await testStore.receive(.reciveRuleItems([]))
   }
   
   func testReciveRules() async throws {
