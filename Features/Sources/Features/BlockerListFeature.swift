@@ -6,7 +6,9 @@
 //
 
 import ComposableArchitecture
+import Services
 import Models
+import Foundation
 
 @Reducer
 struct BlockerListFeature {
@@ -17,7 +19,7 @@ struct BlockerListFeature {
 
   enum Action: Equatable {
     case loadRules
-    case reciveRules([Rule])
+    case reciveRuleItems([RuleItem])
   }
 
   var body: some ReducerOf<Self> {
@@ -25,12 +27,13 @@ struct BlockerListFeature {
       switch action {
       case .loadRules:
         return .run { send in
-          //TODO: 從本地取得規則清單
-          let rules = [Rule]()
-          await send(.reciveRules(rules))
+          @Dependency(\.safariConverterLibService) var safariConverterLibService
+          let rules = try await safariConverterLibService.getRules()
+          await send(.reciveRuleItems(rules))
         }
-      case .reciveRules(let rules):
-        //TODO: 將檔案轉檔成要顯示的格式（RuleItem）
+        
+      case .reciveRuleItems(let ruleItems):
+        state.ruleItems = ruleItems
         return .none
       }
     }

@@ -16,9 +16,9 @@ struct BlockerListView: View {
     List {
       ForEach(store.ruleItems) { ruleItem in
         VStack(alignment: .leading) {
-          Text("\(ruleItem.title)")
+          Text("\(ruleItem.domain)")
             .font(.headline)
-          Text("\(ruleItem.discription)")
+          Text("\(ruleItem.selectors.joined(separator: ", "))")
             .font(.subheadline)
             .foregroundColor(.secondary)
         }
@@ -38,8 +38,8 @@ struct BlockerListView: View {
       store: .init(
         initialState: BlockerListFeature.State(
           ruleItems: [
-            .init(title: "測試 title", discription: "測試 discription"),
-            .init(title: "測試 title2", discription: "測試 discription2")]
+            .init(domain: "測試 domain", selectors: ["測試 selectors"]),
+            .init(domain: "測試 domain2", selectors: ["測試 selectors2"])]
         ),
         reducer: { BlockerListFeature() }))
   }
