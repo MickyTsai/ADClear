@@ -11,11 +11,11 @@ import Foundation
 public struct RuleItem: Identifiable, Equatable {
   public let id = UUID()
   
-  public var title: String
-  public var discription: String
+  public var domain: String
+  public var selectors: [String]
   
-  public init(title: String, discription: String) {
-    self.title = title
-    self.discription = discription
+  public init(domain: String, selectors: [String]) {
+    self.domain = domain
+    self.selectors = selectors
   }
 }

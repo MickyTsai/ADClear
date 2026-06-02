@@ -1,25 +1,22 @@
 //
-//  Rule.swift
+//  BlockerListRule.swift
 //  Features
 //
 //  Created by Micky的mac mini  on 2026/5/30.
 //
 
 /// ContentBlocker 規則檔案格式（blockerList.json）
-public struct Rule: Codable, Equatable {
+public struct BlockerListRule: Codable, Equatable {
   public let trigger: Trigger
   public let action: Action
 
   public struct Trigger: Codable, Equatable {
     public let urlFilter: String
     public let urlFilterIsCaseSenstive: Bool?
-
     public let ifDomain: [String]?
     public let unlessDomain: [String]?
-
     public let resourceType: [ResourceType]?
     public let loadType: [LoadType]?
-
     public let ifTopURL: [String]?
     public let unlessTopURL: [String]?
 
@@ -44,11 +41,27 @@ public struct Rule: Codable, Equatable {
       case svg = "svg-document"
       case media
       case popup
+      case fetch
+      case other
+      case websocket
+      case ping
+      case unknown
+      
+      public init(from decoder: any Decoder) throws {
+        let value = try decoder.singleValueContainer().decode(String.self)
+        self = ResourceType(rawValue: value) ?? .unknown
+      }
     }
 
     public enum LoadType: String, Codable, Equatable {
       case firstParty = "first-party"
       case thirdParty = "third-party"
+      case unknown
+      
+      public init(from decoder: any Decoder) throws {
+        let value = try decoder.singleValueContainer().decode(String.self)
+        self = LoadType(rawValue: value) ?? .unknown
+      }
     }
   }
 
@@ -62,6 +75,12 @@ public struct Rule: Codable, Equatable {
       case cssDisplayNone = "css-display-none"
       case ignorePreviousRules = "ignore-previous-rules"
       case makeHttps = "make-https"
+      case unknown
+      
+      public init(from decoder: any Decoder) throws {
+        let value = try decoder.singleValueContainer().decode(String.self)
+        self = ActionType(rawValue: value) ?? .unknown
+      }
     }
   }
 }
