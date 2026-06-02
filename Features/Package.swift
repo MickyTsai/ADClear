@@ -31,9 +31,9 @@ let package = Package(
     ),
     .target(
       name: "Services",
-      dependencies: [.dependencies, .safariConverterLib]
+      dependencies: [.models, .dependencies, .safariConverterLib]
     ),
-    .target(name: "Models"),
+    .target(name: "Models")
   ]
 )
 // First-party

@@ -9,9 +9,10 @@ import MobileCoreServices
 import UIKit
 
 class ContentBlockerRequestHandler: NSObject, NSExtensionRequestHandling {
-  private let fileName = "blockerList.json"
 
   func beginRequest(with context: NSExtensionContext) {
+    let fileName = "blockerList.json"
+    
     // 優先從 App Group 讀取（來源：SafariConverterLibService）
     let appGroupID = "group.com.mickytsai.ADBlocker"
     let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
