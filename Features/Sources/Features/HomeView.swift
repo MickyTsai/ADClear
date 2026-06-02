@@ -17,11 +17,8 @@ struct HomeView: View {
     NavigationStack(
       path: $store.scope(state:\.path, action: \.path)
     ) {
-      if store.isRefreshingContentBlocker {
-        ProgressView()
-      }
       VStack {
-        descriptionView
+        statusView
         Spacer()
         bottomView
       }
@@ -61,8 +58,13 @@ struct HomeView: View {
 
   @MainActor
   @ViewBuilder
-  private var descriptionView: some View {
-    Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
+  private var statusView: some View {
+    if store.isRefreshingContentBlocker != .none {
+      ProgressView()
+      Text("\(store.isRefreshingContentBlocker.rawValue)")
+    } else {
+      Text("User ContentBlocker is \(store.isEnableContentBlocker ? "Enabled" : "Disabled")")
+    }
   }
 
   @MainActor
@@ -73,7 +75,7 @@ struct HomeView: View {
     } label: {
         Image(systemName: "arrow.clockwise.circle")
     }
-    .disabled(store.isRefreshingContentBlocker)
+    .disabled(store.isRefreshingContentBlocker != .none)
   }
   
   @MainActor
