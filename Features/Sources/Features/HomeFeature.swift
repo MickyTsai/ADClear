@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import Services
 
 @Reducer
 struct HomeFeature {
@@ -25,6 +26,8 @@ struct HomeFeature {
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
     case fetchRulesCount(Int)
+    case reloadContentBlocker
+    case refreshOver
     case tapAboutBtn
     case tapBottomView
 
@@ -43,18 +46,16 @@ struct HomeFeature {
   }
 
   func core(into state: inout State, action: Action) -> Effect<Action> {
-    @Dependency(\.contentBlockerService) var contentBlockerService
-    @Dependency(\.safariConverterLibService) var safariConverterLibService
-    @Dependency(\.openURL) var openURL
 
     enum CancelID {
       case getStateOfContentBlocker
       case tapRefreshBtn
     }
 
-    // 取得 ContentBlocker 狀態
+    /// 取得 ContentBlocker 狀態
     func getStateOfContentBlocker() -> Effect<Action> {
       .run { send in
+        @Dependency(\.contentBlockerService) var contentBlockerService
         let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
         let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
         await send(.isContentBlockerEnable(isEnable))
@@ -62,18 +63,23 @@ struct HomeFeature {
       .cancellable(id: CancelID.getStateOfContentBlocker, cancelInFlight: true)
     }
 
-    // 刷新 ContentBlocker
+    /// 刷新 ContentBlocker
     func refreshingContentBlocker() -> Effect<Action> {
       .run { send in
         // 檢查 ContentBlocker 狀態
+        @Dependency(\.contentBlockerService) var contentBlockerService
         let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
         let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
         await send(.isContentBlockerEnable(isEnable))
 
         // 從 easylist 抓取新規則
         guard isEnable else { return }
+        @Dependency(\.safariConverterLibService) var safariConverterLibService
         let rulesCount = try await safariConverterLibService.fetchRules(URL.easylist)
         await send(.fetchRulesCount(rulesCount))
+      }
+      catch: { error, send in
+        //TODO: Log error
       }
       .cancellable(id: CancelID.tapRefreshBtn, cancelInFlight: true)
     }
@@ -85,6 +91,7 @@ struct HomeFeature {
 
     case .alert(.presented(.openURL)):
       return .run { send in
+        @Dependency(\.openURL) var openURL
         await openURL(.tcaWebsite)
       }
 
@@ -118,10 +125,27 @@ struct HomeFeature {
 
     // 更新規則數量
     case .fetchRulesCount(let count):
-      state.alert = AlertState.fetchRulesCountAlert(count: count)
+//      state.alert = AlertState.fetchRulesCountAlert(count: count)
+      return .send(.reloadContentBlocker)
+    
+    // 重載 ContentBlocker
+    case .reloadContentBlocker:
+      return .run { send in
+        @Dependency(\.contentBlockerService) var contentBlockerService
+        let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
+        try await contentBlockerService.reloadContentBlocker(contentBlockerID)
+        await send(.refreshOver)
+      }
+      catch: { error, send in
+        // TODO: log error
+        
+      }
+    
+    // 更新結束
+    case .refreshOver:
       state.isRefreshingContentBlocker = false
       return .none
-
+      
     // 點擊右上的關於我按鈕
     case .tapAboutBtn:
       state.path.append(.about(.init()))
