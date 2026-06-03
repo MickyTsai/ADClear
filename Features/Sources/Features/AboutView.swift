@@ -23,7 +23,6 @@ struct AboutView: View {
         aboutCell
       }
     }
-    .alert($store.scope(state: \.alert, action: \.alert))
     .navigationTitle("關於")
     .navigationBarTitleDisplayMode(.inline)
     .preferredColorScheme(.dark)
