@@ -76,11 +76,11 @@ final class HomeFeaturesTests: XCTestCase {
     }
     
     await testStore.send(.tapRefreshBtn) {
-      $0.isRefreshingContentBlocker = true
+      $0.isRefreshingContentBlocker = .check
     }
     await testStore.receive(.isContentBlockerEnable(false)) {
       $0.alert = .disableContentBlockerAlert
-      $0.isRefreshingContentBlocker = false
+      $0.isRefreshingContentBlocker = .none
     }
   }
   
@@ -91,18 +91,24 @@ final class HomeFeaturesTests: XCTestCase {
       reducer: { HomeFeature() }
     ) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
+      $0.contentBlockerService.reloadContentBlocker = { _ in }
       $0.safariConverterLibService.fetchRules = { _ in 10 } // 模擬取得10個規則
     }
     
     await testStore.send(.tapRefreshBtn) {
-      $0.isRefreshingContentBlocker = true
+      $0.isRefreshingContentBlocker = .check
     }
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
-    await testStore.receive(.fetchRulesCount(10)) {
-      $0.alert =  AlertState.fetchRulesCountAlert(count: 10)
-      $0.isRefreshingContentBlocker = false
+    await testStore.receive(.startFetchRules) {
+      $0.isRefreshingContentBlocker = .download
+    }
+    await testStore.receive(.endFetchRules) {
+      $0.isRefreshingContentBlocker = .reload
+    }
+    await testStore.receive(.reloadContentBlocker) {
+      $0.isRefreshingContentBlocker = .none
     }
   }
   
@@ -113,18 +119,21 @@ final class HomeFeaturesTests: XCTestCase {
       reducer: { HomeFeature() }
     ) {
       $0.contentBlockerService.getStateOfContentBlocker = { _ in true }
-      $0.safariConverterLibService.fetchRules = { _ in 0 }
+      $0.contentBlockerService.reloadContentBlocker = { _ in }
+      $0.safariConverterLibService.fetchRules = { _ in throw URLError(.unknown) }
     }
     
     await testStore.send(.tapRefreshBtn) {
-      $0.isRefreshingContentBlocker = true
+      $0.isRefreshingContentBlocker = .check
     }
     await testStore.receive(.isContentBlockerEnable(true)) {
       $0.isEnableContentBlocker = true
     }
-    await testStore.receive(.fetchRulesCount(0)) {
-      $0.alert =  AlertState.fetchRulesCountAlert(count: 0)
-      $0.isRefreshingContentBlocker = false
+    await testStore.receive(.startFetchRules) {
+      $0.isRefreshingContentBlocker = .download
+    }
+    await testStore.receive(.refreshFail) {
+      $0.isRefreshingContentBlocker = .none
     }
   }
 
