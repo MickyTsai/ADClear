@@ -25,6 +25,7 @@ struct HomeFeature {
     case scenceDidActive
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
+    case refreshFail
     case startFetchRules
     case endFetchRules
     case reloadContentBlocker
@@ -83,8 +84,9 @@ struct HomeFeature {
         let _ = try await safariConverterLibService.fetchRules(URL.easylist)
         await send(.endFetchRules)
       } catch: { error, send in
-        //TODO: Log error
+        await send(.refreshFail)
         print(error.localizedDescription)
+        // TODO: log error
       }
       .cancellable(id: CancelID.fetchRules, cancelInFlight: true)
     }
@@ -97,8 +99,9 @@ struct HomeFeature {
         try await contentBlockerService.reloadContentBlocker(contentBlockerID)
         await send(.reloadContentBlocker)
       } catch: { error, send in
-        // TODO: log error
+        await send(.refreshFail)
         print(error.localizedDescription)
+        // TODO: log error
       }
       .cancellable(id: CancelID.reloadContentBlocker, cancelInFlight: true)
     }
@@ -141,7 +144,11 @@ struct HomeFeature {
     case .tapRefreshBtn:
       state.isRefreshingContentBlocker = .check
       return getStateOfContentBlocker(manually: true)
-
+      
+    case .refreshFail:
+      state.isRefreshingContentBlocker = .none
+      return .none
+      
     case .startFetchRules:
       state.isRefreshingContentBlocker = .download
       return fetchRules()
