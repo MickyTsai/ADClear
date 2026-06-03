@@ -8,7 +8,7 @@
 import Foundation
 
 /// 用來顯示規則檔案格式
-public struct RuleItem: Identifiable, Equatable {
+public struct RuleItem: Identifiable, Equatable, Sendable {
   public let id = UUID()
   
   public var domain: String
