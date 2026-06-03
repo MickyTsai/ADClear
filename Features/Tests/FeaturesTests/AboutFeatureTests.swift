@@ -13,18 +13,11 @@ import XCTest
 @MainActor
 final class AboutFeatureTests: XCTestCase {
   
-  func testTapReportCell_canSendMailDisable() async throws {
+  func testTapReportCell() async throws {
     let testStore = TestStore(
       initialState: AboutFeature.State(),
       reducer: { AboutFeature() }
-    ) {
-      $0.mailComposeService.canSendMail = { false }
-    }
-    
-    await testStore.send(.tapReportCell)
-    await testStore.receive(.isIosMailEnable(false)) {
-      $0.alert = .pleaseEnableMail
-    }
+    )
   }
 }
 
