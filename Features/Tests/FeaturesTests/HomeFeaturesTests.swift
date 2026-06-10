@@ -102,13 +102,16 @@ final class HomeFeaturesTests: XCTestCase {
       $0.isEnableContentBlocker = true
     }
     await testStore.receive(.startFetchRules) {
+      $0.completedRefreshSteps = [.check]
       $0.isRefreshingContentBlocker = .download
     }
     await testStore.receive(.endFetchRules) {
+      $0.completedRefreshSteps = [.check, .download]
       $0.isRefreshingContentBlocker = .reload
     }
     await testStore.receive(.reloadContentBlocker) {
       $0.isRefreshingContentBlocker = .none
+      $0.completedRefreshSteps = [.check, .download, .reload]
     }
   }
   
@@ -130,10 +133,12 @@ final class HomeFeaturesTests: XCTestCase {
       $0.isEnableContentBlocker = true
     }
     await testStore.receive(.startFetchRules) {
+      $0.completedRefreshSteps = [.check]
       $0.isRefreshingContentBlocker = .download
     }
-    await testStore.receive(.refreshFail) {
+    await testStore.receive(.refreshFail(.download)) {
       $0.isRefreshingContentBlocker = .none
+      $0.failedRefreshStep = .download
     }
   }
 

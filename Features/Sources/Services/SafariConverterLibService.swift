@@ -10,6 +10,9 @@ import Dependencies
 import Foundation
 import Models
 
+private enum SafariConverterLibServiceError: Error {
+  case missingAppGroupContainer(String)
+}
 
 public struct SafariConverterLibService: Sendable {
   /// 抓取新規則，回傳規則數量來確認是否抓取成功
@@ -46,7 +49,9 @@ extension SafariConverterLibService: DependencyKey {
       // 3. save to app group
       let appGroupID = "group.com.mickytsai.ADBlocker"
       let fileName = "blockerList.json"
-      let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID)!
+      guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupID) else {
+        throw SafariConverterLibServiceError.missingAppGroupContainer(appGroupID)
+      }
       let fileURL = containerURL.appendingPathComponent(fileName)
       try result.safariRulesJSON.write(to: fileURL, atomically: true, encoding: .utf8)
 

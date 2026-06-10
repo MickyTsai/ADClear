@@ -17,6 +17,8 @@ struct HomeFeature {
     var path = StackState<Path.State>()
     var isEnableContentBlocker = false
     var isRefreshingContentBlocker: RefrashState = .none
+    var completedRefreshSteps: Set<RefrashState> = []
+    var failedRefreshStep: RefrashState?
   }
 
   enum Action: Equatable {
@@ -25,7 +27,8 @@ struct HomeFeature {
     case scenceDidActive
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
-    case refreshFail
+    case tapBlockerListBtn
+    case refreshFail(RefrashState)
     case startFetchRules
     case endFetchRules
     case reloadContentBlocker
@@ -40,7 +43,7 @@ struct HomeFeature {
     }
   }
   
-  enum RefrashState: String, Equatable {
+  enum RefrashState: String, Equatable, Hashable {
     case check = "檢查延伸功能狀態"
     case download = "下載中"
     case rules = "取得規則"
@@ -84,7 +87,7 @@ struct HomeFeature {
         let _ = try await safariConverterLibService.fetchRules(URL.easylist)
         await send(.endFetchRules)
       } catch: { error, send in
-        await send(.refreshFail)
+        await send(.refreshFail(.download))
         print(error.localizedDescription)
         // TODO: log error
       }
@@ -99,7 +102,7 @@ struct HomeFeature {
         try await contentBlockerService.reloadContentBlocker(contentBlockerID)
         await send(.reloadContentBlocker)
       } catch: { error, send in
-        await send(.refreshFail)
+        await send(.refreshFail(.reload))
         print(error.localizedDescription)
         // TODO: log error
       }
@@ -137,28 +140,40 @@ struct HomeFeature {
       if !isEnable {
         state.alert = .disableContentBlockerAlert
         state.isRefreshingContentBlocker = .none
+        state.completedRefreshSteps = []
+        state.failedRefreshStep = nil
       }
       return .none
 
     // 點擊左上的刷新按鈕
     case .tapRefreshBtn:
       state.isRefreshingContentBlocker = .check
+      state.completedRefreshSteps = []
+      state.failedRefreshStep = nil
       return getStateOfContentBlocker(manually: true)
+
+    case .tapBlockerListBtn:
+      state.path.append(.blockerList(.init()))
+      return .none
       
-    case .refreshFail:
+    case .refreshFail(let step):
       state.isRefreshingContentBlocker = .none
+      state.failedRefreshStep = step
       return .none
       
     case .startFetchRules:
+      state.completedRefreshSteps = state.completedRefreshSteps.union([.check])
       state.isRefreshingContentBlocker = .download
       return fetchRules()
 
     case .endFetchRules:
+      state.completedRefreshSteps = state.completedRefreshSteps.union([.download])
       state.isRefreshingContentBlocker = .reload
       return reloadContentBlocker()
 
     case .reloadContentBlocker:
       state.isRefreshingContentBlocker = .none
+      state.completedRefreshSteps = state.completedRefreshSteps.union([.reload])
       return .none
 
     // 點擊右上的關於我按鈕
