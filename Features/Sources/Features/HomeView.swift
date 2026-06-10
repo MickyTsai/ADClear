@@ -52,7 +52,6 @@ struct HomeView: View {
       }
     }
     .alert($store.scope(state: \.alert, action: \.alert))
-    .preferredColorScheme(.dark)
     .tint(.white)
   }
 

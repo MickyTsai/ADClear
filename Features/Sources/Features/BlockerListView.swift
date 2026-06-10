@@ -43,5 +43,4 @@ struct BlockerListView: View {
         ),
         reducer: { BlockerListFeature() }))
   }
-  .preferredColorScheme(.dark)
 }

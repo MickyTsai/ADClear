@@ -25,7 +25,6 @@ struct AboutView: View {
     }
     .navigationTitle("關於")
     .navigationBarTitleDisplayMode(.inline)
-    .preferredColorScheme(.dark)
   }
 
   @MainActor
@@ -92,5 +91,4 @@ struct AboutView: View {
         initialState: AboutFeature.State(),
         reducer: { AboutFeature() }))
   }
-  .preferredColorScheme(.dark)
 }
