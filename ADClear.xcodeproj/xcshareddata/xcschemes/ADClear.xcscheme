@@ -30,7 +30,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:ADClear/TestPlan.xctestplan"
+            reference = "container:ADClear.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

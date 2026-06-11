@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		814509712FAC7EC500E4957C /* ContentBlocker.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 814509682FAC7EC500E4957C /* ContentBlocker.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		8145097C2FAC8A5000E4957C /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = 8145097B2FAC8A5000E4957C /* Features */; };
+		8172F8942FD98BA4004409A2 /* ADClear.xctestplan in Resources */ = {isa = PBXBuildFile; fileRef = 8172F8922FD98BA4004409A2 /* ADClear.xctestplan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,7 +53,7 @@
 /* Begin PBXFileReference section */
 		814509682FAC7EC500E4957C /* ContentBlocker.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ContentBlocker.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		814509772FAC7F2400E4957C /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
-		8176BA882FAF745E0026A4E9 /* TestPlan.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = TestPlan.xctestplan; path = ADClear/TestPlan.xctestplan; sourceTree = "<group>"; };
+		8172F8922FD98BA4004409A2 /* ADClear.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ADClear.xctestplan; sourceTree = "<group>"; };
 		81CFFDFA2FAC675F00FA2422 /* ADClear.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ADClear.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE072FAC676100FA2422 /* ADClearTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CFFE112FAC676200FA2422 /* ADClearUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ADClearUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,7 +138,7 @@
 		81CFFDF12FAC675F00FA2422 = {
 			isa = PBXGroup;
 			children = (
-				8176BA882FAF745E0026A4E9 /* TestPlan.xctestplan */,
+				8172F8922FD98BA4004409A2 /* ADClear.xctestplan */,
 				814509772FAC7F2400E4957C /* Features */,
 				81CFFDFC2FAC675F00FA2422 /* ADClear */,
 				81CFFE0A2FAC676200FA2422 /* ADClearTests */,
@@ -290,6 +291,9 @@
 			);
 			mainGroup = 81CFFDF12FAC675F00FA2422;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				81AD15462FDAC31A00C27C47 /* XCLocalSwiftPackageReference "Features" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 81CFFDFB2FAC675F00FA2422 /* Products */;
 			projectDirPath = "";
@@ -315,6 +319,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8172F8942FD98BA4004409A2 /* ADClear.xctestplan in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,6 +777,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		81AD15462FDAC31A00C27C47 /* XCLocalSwiftPackageReference "Features" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Features;
+		};
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		8145097B2FAC8A5000E4957C /* Features */ = {
