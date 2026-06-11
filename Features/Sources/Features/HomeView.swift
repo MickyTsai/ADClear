@@ -18,7 +18,7 @@ struct HomeView: View {
       path: $store.scope(state:\.path, action: \.path)
     ) {
       ZStack {
-//        ADClearBackground()
+        ADClearBackground()
         ScrollView {
           dashboardContent
         }
@@ -39,7 +39,7 @@ struct HomeView: View {
         case .active:
           store.send(.scenceDidActive)
         @unknown default:
-          fatalError()
+          break
         }
       }
     } destination: { store in
