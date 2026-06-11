@@ -15,8 +15,8 @@ struct AboutView: View {
     List {
       Section {
         reportCell
-        rateCell
-        shareCell
+//        rateCell
+//        shareCell
         aboutCell
       }
     }
@@ -64,8 +64,6 @@ struct AboutView: View {
     } label: {
       VStack(alignment: .leading) {
         Text("關於")
-        Text("V1.10(17)")
-          .font(.caption2)
       }
     }
   }
