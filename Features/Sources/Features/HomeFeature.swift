@@ -33,13 +33,11 @@ struct HomeFeature {
     case endFetchRules
     case reloadContentBlocker
     case tapAboutBtn
-    case tapBottomView
 
     @CasePathable
     enum Alert {
       case cancel
       case alreadyEnableContentBlocker
-      case openURL
     }
   }
   
@@ -114,12 +112,6 @@ struct HomeFeature {
     case .alert(.presented(.alreadyEnableContentBlocker)):
       return getStateOfContentBlocker()
 
-    case .alert(.presented(.openURL)):
-      return .run { send in
-        @Dependency(\.openURL) var openURL
-        await openURL(.tcaWebsite)
-      }
-
     case .alert:
       return .none
 
@@ -179,11 +171,6 @@ struct HomeFeature {
     // 點擊右上的關於我按鈕
     case .tapAboutBtn:
       state.path.append(.about(.init()))
-      return .none
-
-    // 點擊下方的按鈕
-    case .tapBottomView:
-      state.alert = .tapBottomViewAlert
       return .none
     }
   }

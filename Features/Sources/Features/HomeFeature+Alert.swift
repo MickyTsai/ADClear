@@ -13,25 +13,13 @@ extension AlertState<HomeFeature.Action.Alert> {
       TextState("請開啟 Safari 延伸功能")
     } actions: {
       ButtonState(action: .alreadyEnableContentBlocker,
-                  label: {TextState("好")})
+                  label: {TextState("已啟用")})
       
       ButtonState(role: .cancel,
                   label: {TextState("取消")} )
     } message: {
-      TextState("「前往啟用 Safari 延伸功能」設定 > App > Safari > 延伸功能"
+      TextState("請先「啟用 Safari 延伸功能」:設定 > App > Safari > 延伸功能 中開啟"
       )
-    }
-  }
-  
-  /// 點擊 BottomView 顯示的提示
-  static var tapBottomViewAlert: Self {
-    AlertState {
-      TextState("tapBottomViewAlert")
-    } actions: {
-      ButtonState(action: .openURL,
-                  label: {TextState("openURL")})
-    } message: {
-      TextState("openURL")
     }
   }
 }
