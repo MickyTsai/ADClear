@@ -31,7 +31,7 @@ struct AboutView: View {
       store.send(.tapReportCell)
     } label: {
       VStack(alignment: .leading) {
-        Text("回報")
+        Text("回報問題")
         Text("附上截圖以利判斷")
           .font(.caption)
       }
