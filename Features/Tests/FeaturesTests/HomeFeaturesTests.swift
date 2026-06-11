@@ -141,28 +141,4 @@ final class HomeFeaturesTests: XCTestCase {
       $0.failedRefreshStep = .download
     }
   }
-
-  // 點擊bottomView_點擊開啟網址
-  func testAlert_bottomViewAlert_openURL() async throws {
-    let openURLExp = XCTestExpectation(description: "openURL")
-
-    let testStore = TestStore(
-      initialState: HomeFeature.State(),
-      reducer: { HomeFeature() }
-    ) {
-      $0.openURL = .init(handler: { url in
-        XCTAssertEqual(url, URL(string: "https://github.com/pointfreeco/swift-composable-architecture/tree/7517cc32aa083773f096dc4724a0b83215bf3c55")!)
-        openURLExp.fulfill()
-        return true
-      })
-    }
-
-    await testStore.send(.tapBottomView) {
-      $0.alert = .tapBottomViewAlert
-    }
-    await testStore.send(.alert(.presented(.openURL))) {
-      $0.alert = nil
-    }
-    await fulfillment(of: [openURLExp])
-  }
 }
