@@ -18,7 +18,7 @@ struct HomeView: View {
       path: $store.scope(state:\.path, action: \.path)
     ) {
       ZStack {
-        ADClearBackground()
+//        ADClearBackground()
         ScrollView {
           dashboardContent
         }
@@ -115,10 +115,7 @@ struct HomeView: View {
           Text(store.isEnableContentBlocker ? "已啟用" : "尚未啟用")
             .font(.system(size: 40, weight: .bold, design: .rounded))
             .contentTransition(.numericText())
-          Text(statusMessage)
-            .font(.subheadline)
-            .foregroundStyle(.secondary)
-            .fixedSize(horizontal: false, vertical: true)
+          
         }
 
         Spacer()
@@ -131,8 +128,12 @@ struct HomeView: View {
             .regular.tint(store.isEnableContentBlocker ? .green.opacity(0.2) : .orange.opacity(0.2)),
             in: .rect(cornerRadius: 22)
           )
+        
       }
-
+      Text(statusMessage)
+        .font(.subheadline)
+        .foregroundStyle(.secondary)
+        .fixedSize(horizontal: false, vertical: true)
     }
     .padding(20)
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -210,6 +211,7 @@ struct HomeView: View {
     }
   }
 
+  // 更新流程進度條狀態轉換
   private func pipelineStatus(for step: HomeFeature.RefrashState) -> PipelineRowStatus {
     if store.failedRefreshStep == step {
       return .failed
@@ -283,6 +285,7 @@ private struct DashboardActionButton: View {
   }
 }
 
+// 更新流程進度條狀態
 private enum PipelineRowStatus {
   case idle
   case active
