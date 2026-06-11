@@ -14,10 +14,7 @@ struct AboutView: View {
   var body: some View {
     List {
       Section {
-        blockerListCell
         reportCell
-      }
-      Section {
         rateCell
         shareCell
         aboutCell
@@ -25,16 +22,6 @@ struct AboutView: View {
     }
     .navigationTitle("關於")
     .navigationBarTitleDisplayMode(.inline)
-  }
-
-  @MainActor
-  @ViewBuilder
-  private var blockerListCell: some View {
-    Button {
-      store.send(.tapBlockerListcell)
-    } label: {
-      Text("blockerList 清單")
-    }
   }
 
   @MainActor

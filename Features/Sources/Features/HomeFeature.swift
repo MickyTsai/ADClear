@@ -7,6 +7,7 @@
 
 import ComposableArchitecture
 import Foundation
+import OSLog
 import Services
 
 @Reducer
@@ -40,7 +41,7 @@ struct HomeFeature {
       case alreadyEnableContentBlocker
     }
   }
-  
+
   enum RefrashState: String, Equatable, Hashable {
     case check = "檢查延伸功能狀態"
     case download = "下載中"
@@ -48,6 +49,8 @@ struct HomeFeature {
     case reload = "載入新規則"
     case none = ""
   }
+
+  private let logger = Logger(subsystem: "Featuers", category: "HomeFeature")
 
   var body: some ReducerOf<Self> {
     Reduce(core)
@@ -84,10 +87,10 @@ struct HomeFeature {
         @Dependency(\.safariConverterLibService) var safariConverterLibService
         let _ = try await safariConverterLibService.fetchRules(URL.easylist)
         await send(.endFetchRules)
-      } catch: { error, send in
+      }
+      catch: { error, send in
         await send(.refreshFail(.download))
-        print(error.localizedDescription)
-        // TODO: log error
+        logger.log("從 easylist 抓取新規則 失敗")
       }
       .cancellable(id: CancelID.fetchRules, cancelInFlight: true)
     }
@@ -99,10 +102,10 @@ struct HomeFeature {
         let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
         try await contentBlockerService.reloadContentBlocker(contentBlockerID)
         await send(.reloadContentBlocker)
-      } catch: { error, send in
+      }
+      catch: { error, send in
         await send(.refreshFail(.reload))
-        print(error.localizedDescription)
-        // TODO: log error
+        logger.log("重載 ContentBlocker 失敗")
       }
       .cancellable(id: CancelID.reloadContentBlocker, cancelInFlight: true)
     }
@@ -147,12 +150,12 @@ struct HomeFeature {
     case .tapBlockerListBtn:
       state.path.append(.blockerList(.init()))
       return .none
-      
+
     case .refreshFail(let step):
       state.isRefreshingContentBlocker = .none
       state.failedRefreshStep = step
       return .none
-      
+
     case .startFetchRules:
       state.completedRefreshSteps = state.completedRefreshSteps.union([.check])
       state.isRefreshingContentBlocker = .download
