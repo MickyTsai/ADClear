@@ -8,6 +8,14 @@
 import ComposableArchitecture
 import SwiftUI
 
+// 更新流程進度條狀態
+private enum PipelineRowStatus {
+  case idle
+  case active
+  case completed
+  case failed
+}
+
 struct HomeView: View {
   @Environment(\.scenePhase) private var scenePhase
 
@@ -15,13 +23,10 @@ struct HomeView: View {
 
   var body: some View {
     NavigationStack(
-      path: $store.scope(state:\.path, action: \.path)
+      path: $store.scope(state: \.path, action: \.path)
     ) {
-      ZStack {
-        ADClearBackground()
-        ScrollView {
-          dashboardContent
-        }
+      ScrollView {
+        dashboardContent
       }
       .scrollIndicators(.hidden)
       .navigationTitle("ADClear")
@@ -51,35 +56,29 @@ struct HomeView: View {
       }
     }
     .alert($store.scope(state: \.alert, action: \.alert))
-    .preferredColorScheme(.dark)
-    .tint(.white)
+    .tint(.primary)
   }
 
   @MainActor
   @ViewBuilder
   private var dashboardContent: some View {
     GlassEffectContainer(spacing: 22) {
-      dashboardStack
+      VStack(alignment: .leading, spacing: 22) {
+        homeDescriptionView
+        statusView
+        quickActionsView
+        updatePipelineView
+        Spacer(minLength: 16)
+      }
+      .padding(.horizontal, 20)
+      .padding(.top, 18)
+      .padding(.bottom, 28)
     }
-  }
-
-  @MainActor
-  private var dashboardStack: some View {
-    VStack(alignment: .leading, spacing: 22) {
-      heroView
-      statusView
-      quickActionsView
-      updatePipelineView
-      Spacer(minLength: 16)
-    }
-    .padding(.horizontal, 20)
-    .padding(.top, 18)
-    .padding(.bottom, 28)
   }
 
   @MainActor
   @ViewBuilder
-  private var heroView: some View {
+  private var homeDescriptionView: some View {
     VStack(alignment: .leading, spacing: 10) {
       HStack(spacing: 12) {
         Image(systemName: "shield.lefthalf.filled")
@@ -115,20 +114,23 @@ struct HomeView: View {
           Text(store.isEnableContentBlocker ? "已啟用" : "尚未啟用")
             .font(.system(size: 40, weight: .bold, design: .rounded))
             .contentTransition(.numericText())
-          
+
         }
 
         Spacer()
 
-        Image(systemName: store.isEnableContentBlocker ? "checkmark.shield.fill" : "exclamationmark.shield.fill")
-          .font(.system(size: 34, weight: .semibold))
-          .foregroundStyle(store.isEnableContentBlocker ? .green : .orange)
-          .frame(width: 64, height: 64)
-          .glassEffect(
-            .regular.tint(store.isEnableContentBlocker ? .green.opacity(0.2) : .orange.opacity(0.2)),
-            in: .rect(cornerRadius: 22)
-          )
-        
+        Image(
+          systemName: store.isEnableContentBlocker
+            ? "checkmark.shield.fill" : "exclamationmark.shield.fill"
+        )
+        .font(.system(size: 34, weight: .semibold))
+        .foregroundStyle(store.isEnableContentBlocker ? .green : .orange)
+        .frame(width: 64, height: 64)
+        .glassEffect(
+          .regular.tint(store.isEnableContentBlocker ? .green.opacity(0.2) : .orange.opacity(0.2)),
+          in: .rect(cornerRadius: 22)
+        )
+
       }
       Text(statusMessage)
         .font(.subheadline)
@@ -150,7 +152,7 @@ struct HomeView: View {
     }
     .buttonStyle(.glass)
   }
-  
+
   @MainActor
   @ViewBuilder
   private var quickActionsView: some View {
@@ -211,7 +213,7 @@ struct HomeView: View {
     }
   }
 
-  // 更新流程進度條狀態轉換
+  // 更新流程進度條狀態
   private func pipelineStatus(for step: HomeFeature.RefrashState) -> PipelineRowStatus {
     if store.failedRefreshStep == step {
       return .failed
@@ -235,21 +237,6 @@ struct HomeView: View {
     return store.isEnableContentBlocker
       ? "Content Blocker 已可為 Safari 套用攔截規則。"
       : "請先在 Safari 延伸功能設定中啟用 ADClear。"
-  }
-}
-
-private struct ADClearBackground: View {
-  var body: some View {
-    LinearGradient(
-      colors: [
-        Color(red: 0.05, green: 0.07, blue: 0.09),
-        Color(red: 0.04, green: 0.11, blue: 0.10),
-        Color(red: 0.10, green: 0.08, blue: 0.13)
-      ],
-      startPoint: .topLeading,
-      endPoint: .bottomTrailing
-    )
-    .ignoresSafeArea()
   }
 }
 
@@ -283,14 +270,6 @@ private struct DashboardActionButton: View {
     }
     .buttonStyle(.plain)
   }
-}
-
-// 更新流程進度條狀態
-private enum PipelineRowStatus {
-  case idle
-  case active
-  case completed
-  case failed
 }
 
 private struct PipelineRow: View {
@@ -334,6 +313,7 @@ private struct PipelineRow: View {
     )
   }
 
+  @MainActor
   @ViewBuilder
   private var statusView: some View {
     ZStack {
@@ -360,7 +340,6 @@ private struct PipelineRow: View {
     .frame(width: 28, height: 28)
   }
 }
-
 
 #Preview {
   HomeView(
