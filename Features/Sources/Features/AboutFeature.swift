@@ -13,9 +13,7 @@ struct AboutFeature {
   struct State: Equatable {}
 
   enum Action: Equatable {
-    case tapBlockerListcell
     case tapReportCell
-    case tapRateCell
     case tapAboutCell
   }
 
@@ -25,17 +23,9 @@ struct AboutFeature {
     Reduce { state, action in
       switch action {
         
-      case .tapBlockerListcell:
-        return .none
-        
       case .tapReportCell:
         return .run { send in
           await openURL(.reportByEmail)
-        }
-
-      case .tapRateCell:
-        return .run { send in
-          await openURL(.appStore)
         }
         
       case .tapAboutCell:

@@ -9,6 +9,5 @@ import Foundation
 extension URL {
   static let easylist =  URL(string: "https://easylist-downloads.adblockplus.org/easylist.txt")!
   static let github = URL(string: "https://github.com/MickyTsai/ADClear")!
-  static let appStore = URL(string: "")!
   static let reportByEmail = URL(string: "mailto:micky.adclear@gmail.com")!
 }

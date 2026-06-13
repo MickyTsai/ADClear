@@ -29,11 +29,11 @@ struct HomeFeature {
     case isContentBlockerEnable(Bool)
     case tapRefreshBtn
     case tapBlockerListBtn
-    case refreshFail(RefrashState)
+    case tapAboutBtn
     case startFetchRules
     case endFetchRules
     case reloadContentBlocker
-    case tapAboutBtn
+    case refreshFail(RefrashState)
 
     @CasePathable
     enum Alert {
@@ -87,8 +87,7 @@ struct HomeFeature {
         @Dependency(\.safariConverterLibService) var safariConverterLibService
         let _ = try await safariConverterLibService.fetchRules(URL.easylist)
         await send(.endFetchRules)
-      }
-      catch: { error, send in
+      } catch: { error, send in
         await send(.refreshFail(.download))
         logger.log("從 easylist 抓取新規則 失敗")
       }
@@ -102,8 +101,7 @@ struct HomeFeature {
         let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
         try await contentBlockerService.reloadContentBlocker(contentBlockerID)
         await send(.reloadContentBlocker)
-      }
-      catch: { error, send in
+      } catch: { error, send in
         await send(.refreshFail(.reload))
         logger.log("重載 ContentBlocker 失敗")
       }
@@ -116,10 +114,6 @@ struct HomeFeature {
       return getStateOfContentBlocker()
 
     case .alert:
-      return .none
-
-    case .path(.element(id: _, action: .about(.tapBlockerListcell))):
-      state.path.append(.blockerList(.init()))
       return .none
 
     case .path:
@@ -140,20 +134,21 @@ struct HomeFeature {
       }
       return .none
 
-    // 點擊左上的刷新按鈕
+    // 點擊更新規則按鈕
     case .tapRefreshBtn:
       state.isRefreshingContentBlocker = .check
       state.completedRefreshSteps = []
       state.failedRefreshStep = nil
       return getStateOfContentBlocker(manually: true)
 
+    // 點擊封鎖清單按鈕
     case .tapBlockerListBtn:
       state.path.append(.blockerList(.init()))
       return .none
 
-    case .refreshFail(let step):
-      state.isRefreshingContentBlocker = .none
-      state.failedRefreshStep = step
+    // 點擊右上的關於我按鈕
+    case .tapAboutBtn:
+      state.path.append(.about(.init()))
       return .none
 
     case .startFetchRules:
@@ -170,10 +165,10 @@ struct HomeFeature {
       state.isRefreshingContentBlocker = .none
       state.completedRefreshSteps = state.completedRefreshSteps.union([.reload])
       return .none
-
-    // 點擊右上的關於我按鈕
-    case .tapAboutBtn:
-      state.path.append(.about(.init()))
+      
+    case .refreshFail(let step):
+      state.isRefreshingContentBlocker = .none
+      state.failedRefreshStep = step
       return .none
     }
   }
