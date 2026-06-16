@@ -70,3 +70,8 @@ fastlane/test_output
 # Build output
 build/
 DerivedData/
+
+# App Store 截圖腳本與產出
+# scripts/ 包含截圖自動化腳本及產出的 PNG 截圖，屬於本機作業工具，
+# 不需納入版本控制，由開發者在本機自行執行產生。
+scripts/
