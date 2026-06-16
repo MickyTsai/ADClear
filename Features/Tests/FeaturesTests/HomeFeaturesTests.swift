@@ -7,7 +7,7 @@ import XCTest
 final class HomeFeaturesTests: XCTestCase {
 
   // 進入畫面_contentBlocker權限尚未開啟
-  func testScenceDidActive_contentBlockerDisable() async throws {
+  func test_ScenceDidActive_contentBlockerDisable() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -30,7 +30,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
 
   // 進入畫面_contentBlocker權限尚未開啟_後續使用者開啟
-  func testScenceDidActive_contentBlockerDisable_userEnabled() async throws {
+  func test_ScenceDidActive_contentBlockerDisable_userEnabled() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -52,7 +52,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
 
   // 進入畫面_contentBlocker權限已開啟
-  func testScenceDidActive_contentBlockerEnabled() async throws {
+  func test_ScenceDidActive_contentBlockerEnabled() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -67,7 +67,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
   
   // 點擊刷新按鈕_contentBlocker權限尚未開啟
-  func testTapRefreshBtn_contentBlockerDisable() async throws {
+  func test_TapRefreshBtn_contentBlockerDisable() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -85,7 +85,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
   
   // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則成功
-  func testTapRefreshBtn_contentBlockerEnabled_fetchRulesSusscess() async throws {
+  func test_TapRefreshBtn_contentBlockerEnabled_fetchRulesSusscess() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -116,7 +116,7 @@ final class HomeFeaturesTests: XCTestCase {
   }
   
   // 點擊刷新按鈕_contentBlocker權限已開啟_刷新規則失敗
-  func testTapRefreshBtn_contentBlockerEnabled_fetchRulesFaild() async throws {
+  func test_TapRefreshBtn_contentBlockerEnabled_fetchRulesFaild() async throws {
     let testStore = TestStore(
       initialState: HomeFeature.State(),
       reducer: { HomeFeature() }
@@ -141,4 +141,29 @@ final class HomeFeaturesTests: XCTestCase {
       $0.failedRefreshStep = .download
     }
   }
+  
+  // 點擊封鎖清單按鈕
+  func test_TapBlockerListBtn() async throws {
+    let testStore = TestStore(
+      initialState: HomeFeature.State(),
+      reducer: { HomeFeature() }
+    )
+
+    await testStore.send(.tapBlockerListBtn) {
+      $0.path.append(.blockerList(.init()))
+    }
+  }
+  
+  // 點擊關於按鈕
+  func test_TapAboutBtn() async throws {
+    let testStore = TestStore(
+      initialState: HomeFeature.State(),
+      reducer: { HomeFeature() }
+    )
+
+    await testStore.send(.tapAboutBtn) {
+      $0.path.append(.about(.init()))
+    }
+  }
+  
 }

@@ -13,7 +13,8 @@ import Models
 
 @MainActor
 final class BlockerListFeatureTests: XCTestCase {
-  func testLoadRules() async throws {
+
+  func test_LoadRules() async throws {
     let ruleItem = RuleItem(domain: "example.com", selectors: [".ad-container"])
     
     let testStore = TestStore(
@@ -29,9 +30,5 @@ final class BlockerListFeatureTests: XCTestCase {
     await testStore.receive(.reciveRuleItems([ruleItem])) {
       $0.ruleItems = [ruleItem]
     }
-  }
-  
-  func testReciveRules() async throws {
-    
   }
 }
