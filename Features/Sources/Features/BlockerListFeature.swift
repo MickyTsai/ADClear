@@ -20,27 +20,28 @@ struct BlockerListFeature {
     var ruleItems: [RuleItem] = []
   }
 
-  enum Action: Equatable {
+  enum Action: Equatable, BindableAction {
+    case binding(BindingAction<State>)
     case loadRules
-    case reciveRuleItems([RuleItem])
   }
 
   var body: some ReducerOf<Self> {
+    BindingReducer()
     Reduce { state, action in
       switch action {
+        
+      case .binding:
+        return .none
+        
       case .loadRules:
         return .run { send in
           @Dependency(\.safariConverterLibService) var safariConverterLibService
           let rules = try await safariConverterLibService.getRules()
-          await send(.reciveRuleItems(rules))
+          await send(.binding(.set(\.ruleItems, rules)))
         }
         catch: { error, _ in
           logger.log("取得已下載好的規則 失敗")
         }
-                
-      case .reciveRuleItems(let ruleItems):
-        state.ruleItems = ruleItems
-        return .none
       }
     }
   }
