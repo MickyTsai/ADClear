@@ -27,7 +27,7 @@ final class BlockerListFeatureTests: XCTestCase {
     }
     
     await testStore.send(.loadRules)
-    await testStore.receive(.reciveRuleItems([ruleItem])) {
+    await testStore.receive(.binding(.set(\.ruleItems, [ruleItem]))) {
       $0.ruleItems = [ruleItem]
     }
   }
