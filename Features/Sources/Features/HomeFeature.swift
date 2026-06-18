@@ -165,7 +165,7 @@ struct HomeFeature {
       state.isRefreshingContentBlocker = .none
       state.completedRefreshSteps = state.completedRefreshSteps.union([.reload])
       return .none
-      
+
     case .refreshFail(let step):
       state.isRefreshingContentBlocker = .none
       state.failedRefreshStep = step

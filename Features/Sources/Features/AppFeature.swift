@@ -19,7 +19,7 @@ struct AppView: View {
   let store: StoreOf<AppFeature>
   
   var body: some View {
-    HomeView(store: store.scope(state: \.home, action: \.home))
+    HomeView(store: store.scope(\.home, action: \.home))
   }
 }
 
@@ -35,7 +35,7 @@ struct AppFeature {
   }
   
   var body: some ReducerOf<Self> {
-    Scope(state: \.home, action: \.home) {
+    Scope(\.home, action: \.home) {
       HomeFeature()
     }
   }

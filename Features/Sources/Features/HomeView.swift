@@ -23,7 +23,7 @@ struct HomeView: View {
 
   var body: some View {
     NavigationStack(
-      path: $store.scope(state: \.path, action: \.path)
+      path: $store.scope(\.path, action: \.path)
     ) {
       ScrollView {
         dashboardContent
@@ -55,7 +55,7 @@ struct HomeView: View {
         BlockerListView(store: store)
       }
     }
-    .alert($store.scope(state: \.alert, action: \.alert))
+    .alert($store.scope(\.alert, action: \.alert))
     .tint(.primary)
   }
 
