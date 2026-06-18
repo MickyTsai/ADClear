@@ -15,7 +15,7 @@ let package = Package(
   dependencies: [
     .package(
       url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.26.0"),
-    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.12.0"),
+    .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.14.1"),
     .package(url: "https://github.com/AdguardTeam/SafariConverterLib", exact: "4.2.2"),
   ],
   targets: [
@@ -44,10 +44,8 @@ extension Target.Dependency {
 
 // Third-Party
 extension Target.Dependency {
-  static let tca = Self.product(
-    name: "ComposableArchitecture", package: "swift-composable-architecture")
+  static let tca = Self.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
   static let dependencies = Self.product(name: "Dependencies", package: "swift-dependencies")
-  static let safariConverterLib = Self.product(
-    name: "ContentBlockerConverter", package: "SafariConverterLib")
+  static let safariConverterLib = Self.product(name: "ContentBlockerConverter", package: "SafariConverterLib")
 
 }

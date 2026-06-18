@@ -73,6 +73,7 @@ struct HomeFeature {
         let contentBlockerID = "com.mickytsai.ADClear.ContentBlocker"
         let isEnable = await contentBlockerService.getStateOfContentBlocker(contentBlockerID)
         await send(.isContentBlockerEnable(isEnable))
+
         if isEnable, manually {
           await send(.startFetchRules)
         }
