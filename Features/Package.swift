@@ -14,7 +14,7 @@ let package = Package(
   ],
   dependencies: [
     .package(
-      url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.25.5"),
+      url: "https://github.com/pointfreeco/swift-composable-architecture.git", exact: "1.26.0"),
     .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.12.0"),
     .package(url: "https://github.com/AdguardTeam/SafariConverterLib", exact: "4.2.2"),
   ],
