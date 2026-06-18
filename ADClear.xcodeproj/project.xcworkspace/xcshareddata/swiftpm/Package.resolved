@@ -1,5 +1,5 @@
 {
-  "originHash" : "fae63435f61b9e6cd7cf80ff38cecb479a7dfe172c4069b54e5d9fd547191be9",
+  "originHash" : "d3a8e6a0b1df4f907c57c2f9c953cb2e14f1b2055cd970d89e22b6a7f70a2d2f",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AdguardTeam/SafariConverterLib",
       "state" : {
-        "revision" : "828f709a7a2ea6699e3788a5fcf492bfe24be560",
-        "version" : "4.2.2"
+        "revision" : "7a2e93f0afa70479cc59985f332025236c3f0c39",
+        "version" : "4.3.0"
       }
     },
     {
