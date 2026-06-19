@@ -88,7 +88,7 @@ struct HomeView: View {
           .glassEffect(.regular.tint(.green.opacity(0.18)), in: .rect(cornerRadius: 20))
 
         VStack(alignment: .leading, spacing: 4) {
-          Text("Safari 防護中樞")
+          Text("防護中樞")
             .font(.title2.bold())
           Text("集中管理延伸功能狀態、規則更新與封鎖清單。")
             .font(.subheadline)
