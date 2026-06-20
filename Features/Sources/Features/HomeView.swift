@@ -193,7 +193,7 @@ struct HomeView: View {
       VStack(spacing: 16) {
         PipelineRow(
           title: "檢查延伸功能",
-          detail: "確認 Safari Content Blocker 是否啟用",
+          detail: "確認延伸功能是否啟用",
           systemImage: "magnifyingglass",
           status: pipelineStatus(for: .check)
         )
@@ -235,8 +235,8 @@ struct HomeView: View {
       return "正在更新防護規則，完成後會自動套用。"
     }
     return store.isEnableContentBlocker
-      ? "Content Blocker 已可為 Safari 套用攔截規則。"
-      : "請先在 Safari 延伸功能設定中啟用 ADClear。"
+      ? "Content Blocker 已可套用攔截規則。"
+      : "請先延伸功能設定中啟用 ADClear。"
   }
 }
 
