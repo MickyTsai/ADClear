@@ -3,4 +3,4 @@
 	    -project ADClear.xcodeproj \
 	    -scheme ADClear \
 	    -testPlan ADClear \
-	    -destination 'platform=iOS Simulator,name=iPhone 17 Pro,arch=arm64'
+	    -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max,arch=arm64'
